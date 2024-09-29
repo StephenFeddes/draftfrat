@@ -1,0 +1,2 @@
+CREATE DATABASE direct_message_service;
+CREATE DATABASE user_service;

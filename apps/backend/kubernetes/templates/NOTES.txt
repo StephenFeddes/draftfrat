@@ -1,0 +1,22 @@
+# Accessing it
+```
+kubectl port-forward service/rosterroyale-release-dev-ingress-nginx-controller 8080:80 -n dev
+kubectl port-forward service/rosterroyale-release-prod-ingress-nginx-controller 8080:80 -n prod
+```
+
+# Create dev/prod namespaces
+```
+kubectl create namespace dev
+kubectl create namespace prod
+```
+helm install rosterroyale-release-dev . --values values.yaml -f values-dev.yaml -n dev
+helm install rosterroyale-release-prod . --values values.yaml -f values-prod.yaml -n prod
+helm ls -all-namespaces
+
+# Release new upgrades
+helm upgrade rosterroyale-release-dev . --values values.yaml -f values-dev.yaml -n dev
+helm upgrade rosterroyale-release-prod . --values values.yaml -f values-prod.yaml -n prod
+
+# View resources in different namespaces
+kubectl get all -n dev
+kubectl get all -n prod

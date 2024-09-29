@@ -1,0 +1,9 @@
+namespace: prod
+
+host: api.rosterroyale.com
+
+directMessaging: 
+  config:
+    name: direct-messaging-config-v1
+    data:
+      MONGODB_URL: proddb

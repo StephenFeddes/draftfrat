@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.directMessaging.config.name }}
+  namespace: {{ .Values.namespace }}
+data:
+  DIRECT_MESSAGE_DB_URL: {{ .Values.directMessaging.config.data.MONGODB_URL }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.directMessaging.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.directMessaging.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.directMessaging.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.directMessaging.name }}
+    spec:
+      containers:
+        - name: direct-messaging-container
+          image: "{{ .Values.directMessaging.image.name }}:{{ .Values.directMessaging.image.tag }}"
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.directMessaging.config.name }}
+          resources:
+            requests:
+              memory: "128Mi"
+            limits:
+              memory: "526Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.directMessaging.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.directMessaging.name }}
+spec:
+  selector:
+    app: {{ .Values.directMessaging.name }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP 

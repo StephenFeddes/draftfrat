@@ -1,0 +1,13 @@
+namespace: default
+
+host: api.rosterroyale.com
+
+directMessaging: 
+  name: direct-messaging-app
+  image: 
+    name: rosterroyale/direct-messaging
+    tag: latest
+  config:
+    name: direct-messaging-config-v1
+    data:
+      MONGODB_URL: mongodb://mongo:27017/direct-messaging

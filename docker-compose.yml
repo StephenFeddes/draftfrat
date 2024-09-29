@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:14
+    container_name: postgres-db-container
+    restart: always
+    environment:
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: password1
+      POSTGRES_DB: defaultdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./scripts/initialize_databases/create_postgres_databases.sql:/docker-entrypoint-initdb.d/scripts/initialize_databases/create_postgres_databases.sql
+    networks:
+      - database-network  # Updated network name
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - database-network  # Updated network name
+
+  user-service:
+    build:
+      context: ./apps/backend/services/users
+      dockerfile: Dockerfile
+    volumes:
+      - ./apps/backend/services/users:/app
+      - /app/libs
+    ports:
+      - "3000:80"
+    networks:
+      - database-network  # Updated network name
+    depends_on:
+      - postgres-db
+    environment:
+      SPRING_PROFILES_ACTIVE: dev2
+
+  direct-message-service:
+    build:
+      context: ./apps/backend/services/direct-messaging
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:80"
+    volumes:
+      - ./apps/backend/services/direct-messaging:/app
+      - /app/dist
+    networks:
+      - database-network  # Updated network name
+    depends_on:
+      - postgres-db
+      - mongo  # Ensure the service waits for MongoDB
+
+volumes:
+  db_data:
+  mongo_data:  # New volume for MongoDB
+
+networks:
+  database-network:  # Updated network name
+    driver: bridge

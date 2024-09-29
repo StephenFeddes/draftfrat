@@ -1,0 +1,23 @@
+# 1. Use an official Node.js runtime as a parent image
+FROM node:18-alpine
+
+# 2. Set the working directory in the container
+WORKDIR /app
+
+# 3. Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# 4. Install dependencies
+RUN npm install
+
+# 5. Copy the rest of the application code to the working directory
+COPY . .
+
+# 7. Build the TypeScript code
+RUN npm run build
+
+# 8. Expose the port the app runs on
+EXPOSE 80
+
+# Final command for production
+CMD ["npm", "run", "start"]

@@ -1,0 +1,15 @@
+linters-settings:
+  linelength:
+    line-length: 100
+
+linters:
+  enable:
+    - errcheck
+    - gofmt
+    - gosec
+    - govet
+    - staticcheck
+    - linelength
+
+run:
+  timeout: 5m
