@@ -12,6 +12,7 @@ jobs:
       CLUSTER_NAME: rosterroyale-cluster
       ZONE: us-central1-a
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/gcp-credentials.json # Point to the credentials file
 
     steps:
       - name: Checkout code
@@ -22,28 +23,20 @@ jobs:
         with:
           terraform_version: 1.4.5
 
-      - name: Create Google Cloud credentials file
-        run: |
-          echo "${{ secrets.GCP_CREDENTIALS }}" > "/tmp/gcloud-creds.json"
-        shell: bash
+      - name: Create GCP Credentials File
+        run: echo "${{ secrets.GCP_CREDENTIALS }}" > ${{ github.workspace }}/gcp-credentials.json
 
       - name: Terraform Init
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcloud-creds.json"
         run: |
           cd apps/backend/terraform
           terraform init
 
       - name: Terraform Plan
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcloud-creds.json"
         run: |
           cd apps/backend/terraform
           terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var "zone=${ZONE}"
 
       - name: Terraform Apply
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "/tmp/gcloud-creds.json"
         run: |
           cd apps/backend/terraform 
           terraform apply -auto-approve tfplan
