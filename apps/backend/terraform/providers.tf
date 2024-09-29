@@ -10,6 +10,7 @@ provider "google" {
 }
 
 provider "cloudflare" {
+  source  = "cloudflare/cloudflare"
   email   = var.cloudflare_email
   api_key = var.cloudflare_api_key
 }
