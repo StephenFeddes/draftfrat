@@ -22,18 +22,25 @@ jobs:
           terraform_version: 1.4.5
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+          cd apps/backend/terraform
+          terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var "zone=${ZONE}"
+        run: |
+          cd apps/backend/terraform
+          terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var "zone=${ZONE}"
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: |
+          cd apps/backend/terraform 
+          terraform apply -auto-approve tfplan
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
   kubernetes:
+    needs: terraform
     runs-on: ubuntu-latest
     env:
       CLUSTER_NAME: rosterroyale-cluster
@@ -69,10 +76,16 @@ jobs:
           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
     
       - name: Create namespace
-        run: kubectl create namespace prod
+        run: |
+          cd apps/backend/kubernetes
+          kubectl create namespace prod
 
       - name: Helm Install
-        run: helm install rosterroyale-release-prod apps/backend/kubernetes --values values.yaml -f values-prod.yaml -n prod
+        run: |
+          cd apps/backend/kubernetes
+          helm install rosterroyale-release-prod apps/backend/kubernetes --values values.yaml -f values-prod.yaml -n prod
 
       - name: Helm Upgrade
-        run: helm upgrade rosterroyale-release-prod apps/backend/kubernetes --values values.yaml -f values-prod.yaml -n prod
+        run: |
+          cd apps/backend/kubernetes
+          helm upgrade rosterroyale-release-prod apps/backend/kubernetes --values values.yaml -f values-prod.yaml -n prod
