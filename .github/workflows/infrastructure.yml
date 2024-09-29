@@ -25,7 +25,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var "zone=${ZONE}
+        run: terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var "zone=${ZONE}"
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
