@@ -26,10 +26,6 @@ variable cloudflare_email {
   description = "The Cloudflare email address"
 }
 
-variable terraform_bucket {
-  description = "rosterroyale_terraform_bucket"
-}
-
 variable cluster_name {
     description = "The name of the GKE cluster"
     default = "rosterroyale-cluster"
