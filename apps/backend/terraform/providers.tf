@@ -1,4 +1,15 @@
 terraform {
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 6.0"  # Specify the version you want
+    }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 3.0"  # Specify the version you want
+    }
+  }
+
   backend "gcs" {
     bucket = "rosterroyale_terraform_bucket"
   }
@@ -10,7 +21,6 @@ provider "google" {
 }
 
 provider "cloudflare" {
-  source  = "cloudflare/cloudflare"
   email   = var.cloudflare_email
   api_key = var.cloudflare_api_key
 }
