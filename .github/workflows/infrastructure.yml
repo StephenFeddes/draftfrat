@@ -87,9 +87,9 @@ jobs:
       - name: Helm Install
         run: |
           cd apps/backend/kubernetes
-          helm install rosterroyale-release-prod apps/backend/kubernetes --values values.yaml -f values-prod.yaml -n prod
+          helm install rosterroyale-release-prod . --values values.yaml -f values-prod.yaml -n prod
 
       - name: Helm Upgrade
         run: |
           cd apps/backend/kubernetes
-          helm upgrade rosterroyale-release-prod apps/backend/kubernetes --values values.yaml -f values-prod.yaml -n prod
+          helm upgrade rosterroyale-release-prod . --values values.yaml -f values-prod.yaml -n prod
