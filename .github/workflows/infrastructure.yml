@@ -3,8 +3,7 @@ name: Deploy Infrastructure
 on:
   push:
     branches:
-      - main # Change this to the branch you want to deploy from
-
+      - main
 jobs:
   terraform:
     runs-on: ubuntu-latest
