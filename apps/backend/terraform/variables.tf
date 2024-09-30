@@ -13,8 +13,8 @@ variable "region" {
   default = "us-central1"
 }
 
-variable "cloudflare_api_key" {
-  description = "The Cloudflare API key"
+variable "cloudflare_api_token" {
+  description = "The Cloudflare API token"
 }
 
 variable "domain_name" {
