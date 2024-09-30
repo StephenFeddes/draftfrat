@@ -40,9 +40,14 @@ jobs:
           -var "cloudflare_email=${{ secrets.CLOUD_FLARE_EMAIL }}"
 
       - name: Terraform Apply
+        id: apply
         run: |
           cd apps/backend/terraform 
           terraform apply -auto-approve tfplan
+          # Get the static IP output right after applying
+          terraform output
+          STATIC_IP=$(terraform output static_ip)
+          echo "static_ip=$STATIC_IP" >> $GITHUB_ENV
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -76,11 +81,8 @@ jobs:
       - name: Helm Install/Upgrade
         run: |
             cd apps/backend/kubernetes
-            terraform refresh
-            terraform output
-            STATIC_IP=$(terraform output static_ip)
-            echo "Static IP: $STATIC_IP"  # For debugging purposes
+            echo "Static IP from Terraform Apply: ${{ env.static_ip }}"  # For debugging purposes
             helm upgrade --install rosterroyale-release-prod . \
             --values values.yaml -f values-prod.yaml \
             -n prod \
-            --set 'service.annotations.cloud.google.com/load-balancer-ip='"$STATIC_IP"
+            --set "service.annotations.cloud.google.com/load-balancer-ip=${{ env.static_ip }}"
