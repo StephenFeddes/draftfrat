@@ -2,6 +2,8 @@ namespace: dev
 
 host: ""
 
+loadBalancerIP: ""
+
 directMessaging: 
   config:
     name: direct-messaging-config-v1

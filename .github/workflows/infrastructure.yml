@@ -11,6 +11,7 @@ jobs:
       CLUSTER_NAME: rosterroyale-cluster
       ZONE: us-central1-a
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      PROJECT_ID: rosterroyale
 
     steps:
       - name: Checkout code
@@ -43,18 +44,6 @@ jobs:
           cd apps/backend/terraform 
           terraform apply -auto-approve tfplan
 
-  kubernetes:
-    needs: terraform
-    runs-on: ubuntu-latest
-    env:
-      CLUSTER_NAME: rosterroyale-cluster
-      ZONE: us-central1-a
-      PROJECT_ID: rosterroyale
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
@@ -81,15 +70,14 @@ jobs:
     
       - name: Create namespace
         run: |
-          cd apps/backend/kubernetes
-          kubectl create namespace prod
+            cd apps/backend/kubernetes
+            kubectl get namespace prod || kubectl create namespace prod
 
-      - name: Helm Install
+      - name: Helm Install/Upgrade
         run: |
-          cd apps/backend/kubernetes
-          helm install rosterroyale-release-prod . --values values.yaml -f values-prod.yaml -n prod
-
-      - name: Helm Upgrade
-        run: |
-          cd apps/backend/kubernetes
-          helm upgrade rosterroyale-release-prod . --values values.yaml -f values-prod.yaml -n prod
+            cd apps/backend/kubernetes
+            STATIC_IP=$(terraform output -raw static_ip)
+            helm upgrade --install rosterroyale-release-prod . \
+            --values values.yaml -f values-prod.yaml \
+            -n prod \
+            --set service.annotations."cloud\.google\.com/load-balancer-ip"=$STATIC_IP

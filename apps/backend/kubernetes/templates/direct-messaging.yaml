@@ -13,6 +13,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.directMessaging.name }}
+    tier: backend
 spec:
   replicas: 1
   selector:
@@ -44,6 +45,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.directMessaging.name }}
+    tier: backend
 spec:
   selector:
     app: {{ .Values.directMessaging.name }}
