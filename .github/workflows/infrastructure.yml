@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   infrastructure:
     runs-on: ubuntu-latest
@@ -29,23 +30,18 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd apps/backend/terraform
-          terraform init
+          terraform -chdir=apps/backend/terraform init
 
       - name: Terraform Plan
         run: |
-          cd apps/backend/terraform
-          terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var \
-          "zone=${ZONE}" -var "cloudflare_api_key=${{ secrets.CLOUDFLARE_API_KEY }}" \
+          terraform -chdir=apps/backend/terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" \
+          -var "zone=${ZONE}" -var "cloudflare_api_key=${{ secrets.CLOUDFLARE_API_KEY }}" \
           -var "cloudflare_email=${{ secrets.CLOUD_FLARE_EMAIL }}"
 
       - name: Terraform Apply
         id: apply
         run: |
-          cd apps/backend/terraform 
-          terraform apply -auto-approve tfplan
-          # Directly capture and format the static IP output
-          echo "static_ip=$(terraform output -raw static_ip)" >> $GITHUB_ENV
+          terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -73,14 +69,13 @@ jobs:
     
       - name: Create namespace
         run: |
-            cd apps/backend/kubernetes
-            kubectl get namespace prod || kubectl create namespace prod
+          kubectl get namespace prod || kubectl create namespace prod
 
       - name: Helm Install/Upgrade
         run: |
-            cd apps/backend/kubernetes
-            echo "Static IP from Terraform Apply: ${{ env.static_ip }}"  # For debugging purposes
-            helm upgrade --install rosterroyale-release-prod . \
-            --values values.yaml -f values-prod.yaml \
+          STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
+          echo "Static IP from Terraform Apply: ${STATIC_IP}"
+          helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
+            --values apps/backend/kubernetes/values.yaml -f apps/backend/kubernetes/values-prod.yaml \
             -n prod \
-            --set "service.annotations.cloud.google.com/load-balancer-ip=${{ env.static_ip }}"
+            --set "service.annotations.cloud.google.com/load-balancer-ip=${STATIC_IP}"
