@@ -5,7 +5,7 @@ on:
     branches:
       - main
 jobs:
-  terraform:
+  infrastructure:
     runs-on: ubuntu-latest
     env:
       CLUSTER_NAME: rosterroyale-cluster
@@ -76,7 +76,7 @@ jobs:
       - name: Helm Install/Upgrade
         run: |
             cd apps/backend/kubernetes
-            STATIC_IP=$(terraform output -raw static_ip)
+            STATIC_IP=$(terraform output static_ip)
             helm upgrade --install rosterroyale-release-prod . \
             --values values.yaml -f values-prod.yaml \
             -n prod \

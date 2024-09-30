@@ -24,7 +24,8 @@
     "yq-go@latest",
     "act@latest",
     "kubent@latest",
-    "minikube@latest"
+    "minikube@latest",
+    "terraform@latest"
   ],
   "shell": {
     "init_hook": [
