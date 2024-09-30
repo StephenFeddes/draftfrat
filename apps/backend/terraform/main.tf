@@ -16,14 +16,14 @@ data "google_client_config" "default" {}
 
 # Reserve a static IP address
 resource "google_compute_address" "static_ip" {
-  name   = "static_ip"
+  name   = "static-ip"
   region = var.region
 }
 
 resource "cloudflare_record" "my_record" {
   zone_id = var.zone
   name    = var.domain_name
-  value   = google_compute_address.static_ip.address
+  content = google_compute_address.static_ip.address
   type    = "A"
   ttl     = 300
   proxied = true
