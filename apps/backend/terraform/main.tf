@@ -41,8 +41,14 @@ resource "google_compute_address" "static_ip" {
   region = var.region
 }
 
-resource "cloudflare_record" "my_record" {
-  zone_id = var.zone
+data "cloudflare_zones" "default" {
+  filter {
+    name = var.domain_name
+  }
+}
+
+resource "cloudflare_record" "default" {
+  zone_id = data.cloudflare_zones.default.zones[0].id
   name    = var.domain_name
   value   = google_compute_address.static_ip.address
   type    = "A"
