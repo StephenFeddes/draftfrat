@@ -23,7 +23,7 @@ resource "google_compute_address" "static_ip" {
 resource "cloudflare_record" "my_record" {
   zone_id = var.zone
   name    = var.domain_name
-  content = google_compute_address.static_ip.address
+  value   = google_compute_address.static_ip.address
   type    = "A"
   ttl     = 300
   proxied = true
