@@ -38,8 +38,9 @@ jobs:
       - name: Terraform Plan
         run: |
           cd apps/backend/terraform
-          export TF_LOG=DEBUG
-          terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var "zone=${ZONE}"
+          terraform plan -out=tfplan -var "cluster_name=${{ secrets.CLUSTER_NAME }}" -var \
+          "zone=${{ secrets.ZONE }}" -var "cloudflare_api_key=${CLOUDFLARE_API_TOKEN}" \
+          -var "cloudflare_email=${{ secrets.CLOUD_FLARE_EMAIL }}"
 
       - name: Terraform Apply
         run: |
