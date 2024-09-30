@@ -41,11 +41,11 @@ resource "google_compute_address" "static_ip" {
   region = var.region
 }
 
-resource "cloudflare_record" "my_record" {
+resource "cloudflare_record" "default" {
   zone_id = var.zone
   name    = var.domain_name
   value   = google_compute_address.static_ip.address
   type    = "A"
-  ttl     = 300
+  ttl     = 1
   proxied = true
 }
