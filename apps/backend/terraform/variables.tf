@@ -13,7 +13,7 @@ variable "region" {
   default = "us-central1"
 }
 
-variable "cloudflare_api_token" {
+variable "cloudflare_api_key" {
   description = "The Cloudflare API token"
 }
 

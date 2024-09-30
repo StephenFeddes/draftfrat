@@ -36,7 +36,7 @@ jobs:
         run: |
           cd apps/backend/terraform
           terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" -var \
-          "zone=${ZONE}" -var "cloudflare_api_token=${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+          "zone=${ZONE}" -var "cloudflare_api_key=${{ secrets.CLOUDFLARE_API_KEY }}" \
           -var "cloudflare_email=${{ secrets.CLOUD_FLARE_EMAIL }}"
 
       - name: Terraform Apply
