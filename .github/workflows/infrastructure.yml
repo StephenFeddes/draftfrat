@@ -81,4 +81,4 @@ jobs:
             helm upgrade --install rosterroyale-release-prod . \
             --values values.yaml -f values-prod.yaml \
             -n prod \
-            --set service.annotations."cloud\.google\.com/load-balancer-ip"="$STATIC_IP"
+            --set 'service.annotations.cloud.google.com/load-balancer-ip='"$STATIC_IP"
