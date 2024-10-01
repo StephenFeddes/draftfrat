@@ -6,7 +6,7 @@ directMessaging:
   config:
     name: direct-messaging-config-v1
     data:
-      MONGODB_URL: mongodb
+      MONGODB_URL: mongoDB
 
 controller:
   service:

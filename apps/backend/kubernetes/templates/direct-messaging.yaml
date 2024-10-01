@@ -14,8 +14,6 @@ metadata:
   labels:
     app: {{ .Values.directMessaging.name }}
     tier: backend
-  annotations:
-    configmap.hash: {{ .Values.directMessaging.config.data.MONGODB_URL | sha256sum }}
 spec:
   replicas: 1
   selector:
@@ -25,6 +23,8 @@ spec:
     metadata:
       labels:
         app: {{ .Values.directMessaging.name }}
+      annotations:
+        configmap.revision: {{ .Values.directMessaging.config.data.MONGODB_URL | sha256sum }}
     spec:
       containers:
         - name: direct-messaging-container

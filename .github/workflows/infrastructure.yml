@@ -88,5 +88,5 @@ jobs:
           
           # Install or upgrade Helm chart using the captured IP
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
-          --set service.loadBalancerIP=${{ steps.capture_ip.outputs.loadbalancer_ip }} \
+          --set controller.service.loadBalancerIP=${{ steps.capture_ip.outputs.loadbalancer_ip }} \
           --namespace prod
