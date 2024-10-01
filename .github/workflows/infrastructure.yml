@@ -70,15 +70,16 @@ jobs:
         run: |
           kubectl get namespace prod || kubectl create namespace prod
 
+      - name: Debug Terraform Output
+        run: |
+            terraform -chdir=apps/backend/terraform output -json static_ip
+
       - name: Extract Static IP from Terraform Output
         id: static_ip
         run: |
-            STATIC_IP=$(terraform -chdir=apps/backend/terraform output -json static_ip | jq -r .)
+            STATIC_IP=$(terraform -chdir=apps/backend/terraform output -json static_ip | jq -r .value)
             echo "STATIC_IP=$STATIC_IP" >> $GITHUB_ENV
         shell: bash
-
-      - name: Debug Static IP
-        run: echo "STATIC_IP=${{ env.STATIC_IP }}"
 
       - name: Install/upgrade helm chart
         run: |
