@@ -19,7 +19,7 @@ variable "cloudflare_api_key" {
 
 variable "domain_name" {
   description = "The domain name to point to the static IP"
-  default = "api.rosterroyale.com"
+  default = "rosterroyale.com"
 }
 
 variable cloudflare_email {
