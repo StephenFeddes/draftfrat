@@ -74,7 +74,7 @@ jobs:
       - name: Helm Install/Upgrade
         run: |
           echo "Retrieving Static IP from Terraform..."
-          STATIC_IP=$(cd apps/backend/terraform && terraform output static_ip)
+          STATIC_IP=$(cd apps/backend/terraform && terraform output -raw static_ip)
           echo "Static IP from Terraform Apply: ${STATIC_IP}"
 
           if [ -z "$STATIC_IP" ]; then
