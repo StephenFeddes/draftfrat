@@ -80,6 +80,8 @@ jobs:
       
       - name: Install/upgrade helm chart
         run: |
+          # Extract the LoadBalancer IP using grep in case it has extra characters
+          LOADBALANCER_IP=$(echo "${{ env.LOADBALANCER_IP }}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
-          --set service.loadBalancerIP=${{ env.LOADBALANCER_IP }} \
+          --set service.loadBalancerIP=${LOADBALANCER_IP} \
           --namespace prod
