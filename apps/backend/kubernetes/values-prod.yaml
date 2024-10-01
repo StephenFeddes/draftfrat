@@ -7,9 +7,3 @@ directMessaging:
     name: direct-messaging-config-v1
     data:
       MONGODB_URL: proddb
-
-ingress-nginx:
-  controller:
-    service:
-      type: LoadBalancer
-      loadBalancerIP: {{ .Values.loadBalancerIP | default "" }}
