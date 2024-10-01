@@ -72,14 +72,20 @@ jobs:
       
       - name: Install/upgrade helm chart
         run: |
+          # Change to the correct directory
+          cd apps/backend/terraform
+          
           # Use a subshell to capture the IP address
-          LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
+          LOADBALANCER_IP=$(terraform output static_ip | tr -d '"')
           echo "Using LoadBalancer IP: ${LOADBALANCER_IP}"  # Debugging output
           
           # Set the output using the environment file
           echo "LOADBALANCER_IP=${LOADBALANCER_IP}" >> $GITHUB_ENV
           
-          helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
+          # Change back to the previous directory for the Helm command
+          cd ../../kubernetes
+          
+          helm upgrade --install rosterroyale-release-prod . \
           --set service.loadBalancerIP=${LOADBALANCER_IP} \
           --namespace prod
         shell: bash
