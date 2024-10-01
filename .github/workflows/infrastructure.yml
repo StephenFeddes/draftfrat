@@ -65,10 +65,13 @@ jobs:
       - name: Capture LoadBalancer IP
         id: capture_ip
         run: |
-          # Capture the static IP and remove any newlines or extra characters
-          LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
+          # Capture the IP using terraform output and sanitize it
+          LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
           
-          # Output it for later steps using GITHUB_OUTPUT
+          # Remove any newline characters that may cause issues
+          LOADBALANCER_IP=$(echo "$LOADBALANCER_IP" | tr -d '\n')
+
+          # Store the result in GITHUB_OUTPUT for later steps
           echo "LOADBALANCER_IP=$LOADBALANCER_IP" >> $GITHUB_OUTPUT
 
       - name: Install Helm
