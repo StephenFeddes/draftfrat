@@ -45,9 +45,7 @@ jobs:
       - name: Extract Static IP from Terraform Output
         id: static_ip
         run: |
-          STATIC_IP=$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
-          echo "LOADBALANCER_IP=${STATIC_IP}" >> $GITHUB_ENV
-          echo "DEBUG: Loaded LoadBalancer IP: $STATIC_IP"  # Debug line to verify
+          echo "LOADBALANCER_IP=$(echo terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')" >> $GITHUB_ENV
         shell: bash
       
       - name: Set up Google Cloud SDK
