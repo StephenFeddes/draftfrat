@@ -2,10 +2,13 @@ namespace: dev
 
 host: ""
 
-loadBalancerIP: ""
-
 directMessaging: 
   config:
     name: direct-messaging-config-v1
     data:
-      MONGODB_URL: mongodb://mongo:27017
+      MONGODB_URL: mongodb
+
+controller:
+  service:
+    type: LoadBalancer
+    loadBalancerIP: ""

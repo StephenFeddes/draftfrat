@@ -19,4 +19,3 @@ spec:
             name: {{ .Values.directMessaging.name }}
             port:
               number: 80
-  loadBalancerIP: {{ .Values.loadBalancerIP | quote }}

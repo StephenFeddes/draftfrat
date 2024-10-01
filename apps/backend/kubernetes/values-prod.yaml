@@ -2,10 +2,13 @@ namespace: prod
 
 host: api.rosterroyale.com
 
-loadBalancerIP: ""
-
 directMessaging: 
   config:
     name: direct-messaging-config-v1
     data:
       MONGODB_URL: proddb
+
+controller:
+  service:
+    type: LoadBalancer
+    loadBalancerIP: ""

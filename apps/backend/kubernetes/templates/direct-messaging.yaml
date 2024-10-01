@@ -14,6 +14,8 @@ metadata:
   labels:
     app: {{ .Values.directMessaging.name }}
     tier: backend
+  annotations:
+    configmap.hash: {{ .Values.directMessaging.config.data.MONGODB_URL | sha256sum }}
 spec:
   replicas: 1
   selector:
@@ -53,4 +55,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: ClusterIP 
+  type: ClusterIP
