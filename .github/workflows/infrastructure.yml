@@ -41,12 +41,6 @@ jobs:
       - name: Terraform Apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-    
-      - name: Retrieve LoadBalancer IP
-        id: loadbalancer_ip
-        run: |
-          LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
-          echo "LOADBALANCER_IP=${LOADBALANCER_IP}" >> $GITHUB_OUTPUT
             
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -68,17 +62,21 @@ jobs:
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${ZONE} --project ${PROJECT_ID}
 
-      - name: Set up Helm
+      - name: Capture LoadBalancer IP
+        id: capture_ip
         run: |
-          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-    
-      - name: Create namespace
-        run: |
-          kubectl get namespace prod || kubectl create namespace prod
-      
+          # Capture the static IP and remove any newlines or extra characters
+          LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
+          
+          # Output it for later steps using GITHUB_OUTPUT
+          echo "LOADBALANCER_IP=$LOADBALANCER_IP" >> $GITHUB_OUTPUT
+
+      - name: Install Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
       - name: Install/upgrade helm chart
         run: |
-          echo "LoadBalancer IP: ${{ steps.loadbalancer_ip.outputs.LOADBALANCER_IP }}"
+          echo "Using LoadBalancer IP: ${{ steps.capture_ip.outputs.LOADBALANCER_IP }}"
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
-          --set service.loadBalancerIP=${{ steps.loadbalancer_ip.outputs.LOADBALANCER_IP }} \
+          --set service.loadBalancerIP=${{ steps.capture_ip.outputs.LOADBALANCER_IP }} \
           --namespace prod
