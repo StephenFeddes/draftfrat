@@ -42,9 +42,11 @@ jobs:
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
     
-      - name: Retrieve version
+      - name: Retrieve LoadBalancer IP
+        id: loadbalancer_ip
         run: |
-            echo ::set-env name=LOADBALANCER_IP::$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
+          LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
+          echo "LOADBALANCER_IP=${LOADBALANCER_IP}" >> $GITHUB_OUTPUT
             
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -75,8 +77,8 @@ jobs:
           kubectl get namespace prod || kubectl create namespace prod
       
       - name: Install/upgrade helm chart
-        run: |    
-          echo ${{ env.LOADBALANCER_IP }}
+        run: |
+          echo "LoadBalancer IP: ${{ steps.loadbalancer_ip.outputs.LOADBALANCER_IP }}"
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
-          --set service.loadBalancerIP=${{ env.LOADBALANCER_IP }} \
+          --set service.loadBalancerIP=${{ steps.loadbalancer_ip.outputs.LOADBALANCER_IP }} \
           --namespace prod
