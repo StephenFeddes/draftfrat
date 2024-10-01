@@ -76,6 +76,7 @@ jobs:
           STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
           echo "Static IP from Terraform Apply: ${STATIC_IP}"
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
-            --values apps/backend/kubernetes/values.yaml -f apps/backend/kubernetes/values-prod.yaml \
-            -n prod \
-            --set "service.annotations.cloud.google.com/load-balancer-ip=${STATIC_IP}"
+          --values apps/backend/kubernetes/values.yaml \
+          -f apps/backend/kubernetes/values-prod.yaml \
+          -n prod \
+          --set loadBalancerIP=${STATIC_IP}

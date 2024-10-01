@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-http2: "true"
 spec:
   ingressClassName: nginx
   rules:
@@ -18,3 +19,4 @@ spec:
             name: {{ .Values.directMessaging.name }}
             port:
               number: 80
+  loadBalancerIP: {{ .Values.loadBalancerIP | quote }}

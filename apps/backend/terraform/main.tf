@@ -16,13 +16,13 @@ resource "google_project_service" "compute" {
 
 # Ensure that the Kubernetes Engine API is enabled before creating the GKE cluster
 resource "google_container_cluster" "default" {
-  name     = var.cluster_name
-  location = var.zone
+  name               = var.cluster_name
+  location           = var.zone
   initial_node_count = 1
   deletion_protection = false
 
   node_config {
-    machine_type = "g1-small"
+    machine_type = "custom-1-6656"  # 1 vCPU and 6.5 GB RAM (6656 MB)
     preemptible  = true
     disk_size_gb = 32
   }
