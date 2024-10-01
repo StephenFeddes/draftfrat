@@ -45,7 +45,7 @@ jobs:
       - name: Extract Static IP from Terraform Output
         id: static_ip
         run: |
-          STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
+          STATIC_IP=$(terraform -chdir=apps/backend/terraform output static_ip)
           echo "STATIC_IP=${STATIC_IP}" >> $GITHUB_ENV
         shell: bash
       
