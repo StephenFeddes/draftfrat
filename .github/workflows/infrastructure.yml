@@ -3,7 +3,7 @@ name: Deploy Infrastructure
 on:
   push:
     branches:
-      - main
+      - main # Change this to your main branch
 
 jobs:
   infrastructure:
