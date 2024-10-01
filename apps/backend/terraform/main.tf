@@ -42,12 +42,6 @@ resource "google_compute_address" "static_ip" {
   region = var.region
 }
 
-data "cloudflare_zones" "default" {
-  filter {
-    name = var.domain_name
-  }
-}
-
 resource "cloudflare_record" "api_subdomain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "api"  # This creates the subdomain api.rosterroyale.com
