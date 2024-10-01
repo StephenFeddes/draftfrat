@@ -73,7 +73,7 @@ jobs:
 
       - name: Helm Install/Upgrade
         run: |
-          STATIC_IP=$(cd apps/backend/terraform && terraform output -raw static_ip)
+          STATIC_IP=$(cd apps/backend/terraform && terraform output static_ip)
           echo "Static IP from Terraform Apply: ${STATIC_IP}"
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
           --values apps/backend/kubernetes/values.yaml \
