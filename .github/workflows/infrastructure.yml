@@ -73,8 +73,17 @@ jobs:
 
       - name: Helm Install/Upgrade
         run: |
-          STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
+          echo "Retrieving Static IP from Terraform..."
+          STATIC_IP=$(cd apps/backend/terraform && terraform output static_ip)
           echo "Static IP from Terraform Apply: ${STATIC_IP}"
+
+          # Check if STATIC_IP is empty
+          if [ -z "$STATIC_IP" ]; then
+            echo "Error: STATIC_IP is empty."
+            exit 1
+          fi
+
+          # Run Helm upgrade command
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
           --values apps/backend/kubernetes/values.yaml \
           -f apps/backend/kubernetes/values-prod.yaml \
