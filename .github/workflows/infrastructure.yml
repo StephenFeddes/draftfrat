@@ -62,6 +62,13 @@ jobs:
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${ZONE} --project ${PROJECT_ID}
 
+      - name: Install Helm
+        run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      - name: Create namespace
+        run: |
+          kubectl get namespace prod || kubectl create namespace prod
+
       - name: Capture LoadBalancer IP
         id: capture_ip
         run: |
@@ -72,10 +79,7 @@ jobs:
           echo "Extracted LoadBalancer IP: $LOADBALANCER_IP"
           
           # Store the result for later steps using the 'outputs' feature
-          echo "::set-output name=loadbalancer_ip::$LOADBALANCER_IP"
-
-      - name: Install Helm
-        run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+          echo "LOADBALANCER_IP=$LOADBALANCER_IP" >> $GITHUB_OUTPUT
 
       - name: Install/upgrade helm chart
         run: |
