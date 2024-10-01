@@ -8,20 +8,59 @@ on:
 jobs:
   infrastructure:
     runs-on: ubuntu-latest
+    env:
+      CLUSTER_NAME: rosterroyale-cluster
+      ZONE: us-central1-a
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      PROJECT_ID: rosterroyale
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+        
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.4.5
 
       - name: Terraform Init
-        run: terraform -chdir=apps/backend/terraform init
+        run: |
+          terraform -chdir=apps/backend/terraform init
+
+      - name: Terraform Plan
+        run: |
+          terraform -chdir=apps/backend/terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" \
+          -var "zone=${ZONE}" -var "cloudflare_api_key=${{ secrets.CLOUDFLARE_API_KEY }}" \
+          -var "cloudflare_email=${{ secrets.CLOUD_FLARE_EMAIL }}"
 
       - name: Terraform Apply
-        run: terraform -chdir=apps/backend/terraform apply -auto-approve
+        run: |
+          terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
+            
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: 'latest'
+
+      - name: Install gke-cloud-auth-plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Get GKE credentials
+        env:
+          USE_GKE_GCLOUD_AUTH_PLUGIN: True
+        run: |
+          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${ZONE} --project ${PROJECT_ID}
 
       - name: Capture LoadBalancer IP
         id: capture_ip
