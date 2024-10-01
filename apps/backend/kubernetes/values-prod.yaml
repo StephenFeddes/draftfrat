@@ -8,7 +8,8 @@ directMessaging:
     data:
       MONGODB_URL: proddb
 
-controller:
-  service:
-    type: LoadBalancer
-    loadBalancerIP: ""
+ingress-nginx:
+  controller:
+    service:
+      type: LoadBalancer
+      loadBalancerIP: {{ .Values.loadBalancerIP | default "" }}

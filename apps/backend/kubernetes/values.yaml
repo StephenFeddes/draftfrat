@@ -11,8 +11,3 @@ directMessaging:
     name: direct-messaging-config-v1
     data:
       MONGODB_URL: mongodb://mongo:27017/direct-messaging
-
-controller:
-  service:
-    type: LoadBalancer
-    loadBalancerIP: ""
