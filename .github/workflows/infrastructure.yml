@@ -75,7 +75,7 @@ jobs:
         id: retrieve_ip
         run: |
             echo "Retrieving Static IP from Terraform..."
-            STATIC_IP=$(terraform -chdir=apps/backend/terraform output static_ip)
+            STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
             echo "LoadBalancerIP=${STATIC_IP}" >> $GITHUB_ENV  # Save to environment variable
         env:
             terraform_wrapper: false
