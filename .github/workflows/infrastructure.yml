@@ -71,8 +71,7 @@ jobs:
         run: |
           kubectl get namespace prod || kubectl create namespace prod
 
-      - name: Retrieve Static IP from Terraform
-        id: retrieve_static_ip
+      - name: Helm Install/Upgrade
         run: |
           echo "Retrieving Static IP from Terraform..."
           STATIC_IP=$(cd apps/backend/terraform && terraform output -raw static_ip)
@@ -83,11 +82,6 @@ jobs:
             exit 1
           fi
 
-          # Write to environment file
-          echo "STATIC_IP=${STATIC_IP}" >> $GITHUB_ENV
-
-      - name: Helm Install/Upgrade
-        run: |
           echo "Running Helm upgrade with the following parameters:"
           echo "Release Name: rosterroyale-release-prod"
           echo "Chart Path: apps/backend/kubernetes"
@@ -96,9 +90,10 @@ jobs:
           echo "Namespace: prod"
           echo "LoadBalancerIP: ${STATIC_IP}"
 
-          # Run Helm upgrade command
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
           --values apps/backend/kubernetes/values.yaml \
-          --values apps/backend/kubernetes/values-prod.yaml \
-          --namespace prod \
+          -f apps/backend/kubernetes/values-prod.yaml \
+          -n prod \
           --set loadBalancerIP=${STATIC_IP}
+        env:
+          terraform_wrapper: false
