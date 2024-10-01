@@ -46,7 +46,8 @@ jobs:
         id: static_ip
         run: |
           STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
-          echo "STATIC_IP=$STATIC_IP" >> $GITHUB_ENV
+          echo "STATIC_IP=${STATIC_IP}" >> $GITHUB_ENV
+        shell: bash
       
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
