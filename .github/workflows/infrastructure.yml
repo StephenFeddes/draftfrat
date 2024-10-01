@@ -41,14 +41,6 @@ jobs:
       - name: Terraform Apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-
-      - name: Extract Static IP from Terraform Output
-        id: static_ip
-        run: |
-            STATIC_IP=$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
-            echo "LOADBALANCER_IP=$(echo ${STATIC_IP})" >> $GITHUB_ENV
-            echo "DEBUG: Loaded LoadBalancer IP: '${STATIC_IP}'"  # Debug line to verify
-        shell: bash
       
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -80,8 +72,8 @@ jobs:
       
       - name: Install/upgrade helm chart
         run: |
-          # Extract the LoadBalancer IP using grep in case it has extra characters
-          LOADBALANCER_IP=$(echo "${{ env.LOADBALANCER_IP }}" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+          LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output static_ip | tr -d '"')
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
           --set service.loadBalancerIP=${LOADBALANCER_IP} \
           --namespace prod
+        shell: bash
