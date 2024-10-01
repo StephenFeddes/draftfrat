@@ -39,7 +39,6 @@ jobs:
           -var "cloudflare_email=${{ secrets.CLOUD_FLARE_EMAIL }}"
 
       - name: Terraform Apply
-        id: apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
 
@@ -70,17 +69,9 @@ jobs:
       - name: Create namespace
         run: |
           kubectl get namespace prod || kubectl create namespace prod
-
-      - name: Run Helm Upgrade
+      
+      - name: Install/upgrade helm chart
         run: |
-            STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
-            echo "Running Helm upgrade with the following parameters:"
-            echo "Release Name: rosterroyale-release-prod"
-            echo "Chart Path: apps/backend/kubernetes"
-            echo "Values File 1: apps/backend/kubernetes/values.yaml"
-            echo "Values File 2: apps/backend/kubernetes/values-prod.yaml"
-            echo "Namespace: prod"
-            echo "LoadBalancerIP: $(terraform -chdir=apps/backend/terraform output -raw static_ip)"
-            helm upgrade rosterroyale-release-prod apps/backend/kubernetes \
-            --set service.loadBalancerIP=$(terraform -chdir=apps/backend/terraform output -raw static_ip) \
-            --namespace prod
+          helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
+          --set service.loadBalancerIP=$(terraform -chdir=apps/backend/terraform output -raw static_ip) \
+          --namespace prod
