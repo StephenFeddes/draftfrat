@@ -71,22 +71,16 @@ jobs:
         run: |
           kubectl get namespace prod || kubectl create namespace prod
 
-      - name: Retrieve Static IP from Terraform
-        id: retrieve_ip
-        run: |
-            echo "Retrieving Static IP from Terraform..."
-            STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
-            echo "LoadBalancerIP=${STATIC_IP}" >> $GITHUB_ENV  # Save to environment variable
-        env:
-            terraform_wrapper: false
-
       - name: Run Helm Upgrade
         run: |
+            STATIC_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
             echo "Running Helm upgrade with the following parameters:"
             echo "Release Name: rosterroyale-release-prod"
             echo "Chart Path: apps/backend/kubernetes"
             echo "Values File 1: apps/backend/kubernetes/values.yaml"
             echo "Values File 2: apps/backend/kubernetes/values-prod.yaml"
             echo "Namespace: prod"
-            echo "LoadBalancerIP: ${{ env.LoadBalancerIP }}"
-            helm upgrade rosterroyale-release-prod apps/backend/kubernetes --set service.loadBalancerIP=${{ env.LoadBalancerIP }} --namespace prod
+            echo "LoadBalancerIP: $(terraform -chdir=apps/backend/terraform output -raw static_ip)"
+            helm upgrade rosterroyale-release-prod apps/backend/kubernetes \
+            --set service.loadBalancerIP=$(terraform -chdir=apps/backend/terraform output -raw static_ip) \
+            --namespace prod
