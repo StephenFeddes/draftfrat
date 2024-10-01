@@ -12,7 +12,7 @@ spec:
   - host: {{ .Values.host }}
     http:
       paths:
-      - path: /direct-messages
+      - path: /direct-messaging
         pathType: Prefix
         backend:
           service:
