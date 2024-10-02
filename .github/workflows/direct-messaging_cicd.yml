@@ -3,7 +3,7 @@ name: CI/CD Pipeline for GKE with Terraform
 on:
   push:
     branches:
-      - test
+      - main
     paths:
       - 'apps/backend/services/direct-messaging/**'
 jobs:
