@@ -2,6 +2,13 @@ import { Server } from "socket.io";
 import http from "http";
 import * as dotenv from "dotenv";
 dotenv.config();
+/*
+const dbUrl = process.env.DIRECT_MESSAGE_DB_URL;
+if (!dbUrl) {
+    throw new Error("DIRECT_MESSAGE_DB_URL is not defined in the environment variables");
+}
+mongoose.connect(dbUrl);
+*/
 
 const server = http.createServer((req, res) => {
     // Check if the request is for the root URL

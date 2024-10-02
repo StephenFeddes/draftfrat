@@ -3,7 +3,10 @@ name: Deploy Infrastructure
 on:
   push:
     branches:
-      - main # Change this to your main branch
+      - main
+    paths:
+      - 'apps/backend/kubernetes/**'
+      - 'apps/backend/terraform/**'
 
 jobs:
   infrastructure:

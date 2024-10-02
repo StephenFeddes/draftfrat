@@ -1,0 +1,52 @@
+name: CI/CD Pipeline for GKE with Terraform
+
+on:
+  push:
+    branches:
+      - test
+    paths:
+      - 'apps/backend/services/direct-messaging/**'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: rosterroyale/direct-messaging:latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "rosterroyale" --password-stdin
+
+      - name: Build the Docker image
+        run: |
+          docker build -t $IMAGE_NAME apps/backend/services/direct-messaging
+          docker push $IMAGE_NAME
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: 'latest'
+
+      - name: Install gke-cloud-auth-plugin
+        run: |
+          gcloud components install gke-gcloud-auth-plugin
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Get GKE credentials
+        env:
+          USE_GKE_GCLOUD_AUTH_PLUGIN: True
+        run: |
+          gcloud container clusters get-credentials draftbash-cluster --zone ${{ secrets.GCP_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Deploy to GKE
+        run: |
+          kubectl set image deployment/direct-messaging-app direct-messaging-container=$IMAGE_NAME
+          kubectl rollout restart deployment direct-messaging-app
