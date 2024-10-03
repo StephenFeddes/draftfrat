@@ -7,7 +7,6 @@ import { MockDraftsPage } from "views/mock-drafts-page/MockDraftsPage";
 import { DraftRoomPage } from "views/draft-room-page/DraftRoomPage";
 import { SignInPage } from "views/sign-in-page/SignInPage";
 import { SignUpPage } from "views/sign-up-page/SignUpPage";
-import { DirectMessagesProvider } from "contexts/DirectMessagesProvider";
 
 export const App = () => {
     return (

@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useGlobalContext } from "./GlobalProvider";
 import { ChatMessage, RecentConversation } from "types/chats";
-import { Socket } from "socket.io-client";
 import io from "socket.io-client";
 
 type DirectMessagesContextType = {
@@ -31,6 +30,9 @@ export const DirectMessagesProvider = ({ children }: Props) => {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [recentConversations, setRecentConversations] = useState<RecentConversation[]>([]);
     const [fromUserId, setFromUserId] = useState<number | null>(null);
+
+    console.log(setMessages)
+    console.log(setRecentConversations)
 
     const { user } = useGlobalContext();
     useEffect(() => {

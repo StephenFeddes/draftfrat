@@ -5,6 +5,7 @@ export class DirectMessagesWebSocketClient {
     private socket: WebSocket | null;
 
     constructor(userId: number) {
+        console.log(userId)
         this.url = `ws://localhost:3000/ws`;
         this.socket = null;
     }

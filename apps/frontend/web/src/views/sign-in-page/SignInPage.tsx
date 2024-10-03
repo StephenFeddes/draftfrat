@@ -4,7 +4,7 @@ import { useSignInUser } from "@hooks/users/useSignInUser";
 import { useState } from "react";
 
 export const SignInPage = () => {
-    const { signInUser, isLoading, error } = useSignInUser();
+    const { signInUser, error } = useSignInUser();
     const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
