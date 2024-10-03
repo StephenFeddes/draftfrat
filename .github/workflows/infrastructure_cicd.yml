@@ -92,4 +92,5 @@ jobs:
           # Install or upgrade Helm chart using the captured IP
           helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
           --set ingress-nginx.controller.service.loadBalancerIP=${{ steps.capture_ip.outputs.loadbalancer_ip }} \
+          --values values.yaml -f values-prod.yaml \
           --namespace prod
