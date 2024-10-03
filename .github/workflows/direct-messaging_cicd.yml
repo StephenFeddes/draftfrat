@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      IMAGE_TAG: ${{ github.sha }}
       IMAGE_NAME: rosterroyale/direct-messaging:latest
       CLUSTER_NAME: rosterroyale-cluster
       ZONE: us-central1-a
@@ -52,5 +53,6 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-            kubectl set image deployment/direct-messaging-app direct-messaging-container=$IMAGE_NAME -n prod
-            kubectl rollout restart deployment direct-messaging-app -n prod
+            helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
+            --set directMessaging.image.tag=${{ env.IMAGE_TAG }} \
+            --namespace prod
