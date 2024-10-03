@@ -17,10 +17,6 @@ variable "cloudflare_api_key" {
   description = "The Cloudflare API token"
 }
 
-variable "cloudflare_api_key" {
-  description = "The Cloudflare API token"
-}
-
 variable "cloudflare_account_id" {
   description = "The Cloudflare account ID"
 }
