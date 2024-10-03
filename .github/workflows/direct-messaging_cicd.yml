@@ -30,6 +30,7 @@ jobs:
           docker build -t $IMAGE_NAME:latest apps/backend/services/direct-messaging
           docker push $IMAGE_NAME:latest
           docker build -t $IMAGE_NAME:${{ github.sha }} apps/backend/services/direct-messaging
+          docker push $IMAGE_NAME:${{ github.sha }}
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
