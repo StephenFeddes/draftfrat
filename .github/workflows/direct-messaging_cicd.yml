@@ -53,6 +53,6 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-            helm upgrade --install rosterroyale-release-prod apps/backend/kubernetes \
+            helm upgrade rosterroyale-release-prod apps/backend/kubernetes \
             --set directMessaging.image.tag=${{ env.IMAGE_TAG }} \
             --namespace prod
