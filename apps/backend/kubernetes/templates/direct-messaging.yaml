@@ -29,6 +29,7 @@ spec:
       containers:
         - name: direct-messaging-container
           image: "{{ .Values.directMessaging.image.name }}:{{ .Values.directMessaging.image.tag }}"
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           envFrom:
