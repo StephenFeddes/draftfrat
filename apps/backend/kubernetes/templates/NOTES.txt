@@ -1,4 +1,4 @@
-# Accessing it
+# To access the application:
 ```
 kubectl port-forward service/rosterroyale-release-dev-ingress-nginx-controller 8080:80 -n dev
 ```
