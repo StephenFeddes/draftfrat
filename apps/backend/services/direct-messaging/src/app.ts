@@ -14,7 +14,7 @@ const server = http.createServer((req, res) => {
     // Check if the request is for the root URL
     if (req.method === "GET" && req.url === "/") {
         res.writeHead(200, { "Content-Type": "text/plain" });
-        res.end(`Testing ${process.env.DIRECT_MESSAGE_DB_URL}`);
+        res.end(`Hi, ${process.env.DIRECT_MESSAGE_DB_URL}`);
     } else {
         // Handle other requests if needed
         res.writeHead(404, { "Content-Type": "text/plain" });
