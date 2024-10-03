@@ -3,7 +3,7 @@ name: Deploy Infrastructure
 on:
   push:
     branches:
-      - test
+      - main
     paths:
       - 'apps/backend/kubernetes/**'
       - 'apps/backend/terraform/**'

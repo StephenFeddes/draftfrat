@@ -24,7 +24,7 @@ resource "cloudflare_dns_record" "pages_custom_domain" {
 
 resource "cloudflare_dns_record" "pages_custom_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
-  name    = "www"  # Replace with your desired subdomain
+  name    = "www"
   value   = var.domain_name
   type    = "CNAME"
   ttl     = 3600
