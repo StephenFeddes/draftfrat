@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_TAG: ${{ github.sha }}
-      IMAGE_NAME: rosterroyale/direct-messaging:latest
+      IMAGE_NAME: rosterroyale/direct-messaging
       CLUSTER_NAME: rosterroyale-cluster
       ZONE: us-central1-a
       PROJECT_ID: rosterroyale
@@ -28,8 +27,9 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build -t $IMAGE_NAME apps/backend/services/direct-messaging
-          docker push $IMAGE_NAME
+          docker build -t $IMAGE_NAME:latest apps/backend/services/direct-messaging
+          docker push $IMAGE_NAME:latest
+          docker build -t $IMAGE_NAME:${{ github.sha }} apps/backend/services/direct-messaging
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -53,6 +53,6 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-            helm upgrade rosterroyale-release-prod apps/backend/kubernetes \
-            --set directMessaging.image.tag=${{ env.IMAGE_TAG }} \
-            --namespace prod
+            kubectl set image deployment/direct-messaging-app direct-messaging-container=$IMAGE_NAME:${{ github.sha }} -n prod
+            kubectl rollout restart deployment direct-messaging-app -n prod
+            kubectl rollout status deployment/direct-messaging-app -n prod --timeout=5m
