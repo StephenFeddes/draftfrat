@@ -3,11 +3,25 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   name     = "rosterroyale_frontend_bucket"
   location = var.region
   website {
-    main_page_suffix = "apps/frontend/web/dist/index.html"
+    main_page_suffix = "index.html"
   }
 
   # Make the bucket public
   uniform_bucket_level_access = true
+}
+
+locals {
+  files = [
+    for file in fileset("apps/frontend/web/dist", "**") : file
+  ]
+}
+
+resource "google_storage_bucket_object" "files" {
+  for_each = toset(local.files)
+
+  name   = each.value
+  bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
+  source = each.value
 }
 
 # Configure bucket access to be public
