@@ -17,20 +17,20 @@ resource "google_storage_bucket_iam_member" "allUsers" {
   member = "allUsers"
 }
 
-# Cloudflare DNS record for your domain pointing to the Google Storage bucket via Cloudflare
+# Cloudflare DNS record for your root domain (e.g., rosterroyale.com)
 resource "cloudflare_record" "root_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = var.domain_name
-  value   = google_storage_bucket.rosterroyale_frontend_bucket.self_link
+  value   = "${google_storage_bucket.rosterroyale_frontend_bucket.bucket_domain_name}"
   type    = "CNAME"
   proxied = false
 }
 
-# Optional: Cloudflare DNS record for www subdomain (e.g., www.rosterroyale.com)
+# Cloudflare DNS record for www subdomain (e.g., www.rosterroyale.com)
 resource "cloudflare_record" "www_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "www"
-  value   = google_storage_bucket.rosterroyale_frontend_bucket.self_link
+  value   = "${google_storage_bucket.rosterroyale_frontend_bucket.bucket_domain_name}"
   type    = "CNAME"
   proxied = false
 }
