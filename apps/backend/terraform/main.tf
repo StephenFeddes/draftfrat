@@ -12,7 +12,7 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
 
 # Configure bucket access to be public
 resource "google_storage_bucket_iam_member" "allUsers" {
-  bucket = google_storage_bucket.frontend_bucket.name
+  bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
