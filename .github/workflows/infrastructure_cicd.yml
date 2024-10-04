@@ -31,6 +31,12 @@ jobs:
         with:
           terraform_version: 1.4.5
 
+      - name: Build frontend
+        run: |
+          cd apps/frontend/web
+          npm install
+          npm run build
+
       - name: Terraform Init
         run: |
           terraform -chdir=apps/backend/terraform init
