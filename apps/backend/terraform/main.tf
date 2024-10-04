@@ -1,6 +1,6 @@
 # Create Google Cloud Storage Bucket
 resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
-  name     = "frontend_bucket"
+  name     = "rosterroyale_frontend_bucket"
   location = var.region
   website {
     main_page_suffix = "apps/frontend/web/dist/index.html"
