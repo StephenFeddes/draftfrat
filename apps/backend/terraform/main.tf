@@ -1,5 +1,5 @@
 # Create Google Cloud Storage Bucket
-resource "google_storage_bucket" "frontend_bucket" {
+resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   name     = "frontend_bucket"
   location = var.region
   website {
@@ -21,7 +21,7 @@ resource "google_storage_bucket_iam_member" "allUsers" {
 resource "cloudflare_record" "root_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = var.domain_name
-  value   = google_storage_bucket.frontend_bucket.self_link
+  value   = google_storage_bucket.rosterroyale_frontend_bucket.self_link
   type    = "CNAME"
   proxied = false
 }
@@ -30,7 +30,7 @@ resource "cloudflare_record" "root_domain" {
 resource "cloudflare_record" "www_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "www"
-  value   = google_storage_bucket.frontend_bucket.self_link
+  value   = google_storage_bucket.rosterroyale_frontend_bucket.self_link
   type    = "CNAME"
   proxied = false
 }
