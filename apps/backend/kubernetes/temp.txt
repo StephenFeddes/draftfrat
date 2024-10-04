@@ -50,3 +50,7 @@ resource "cloudflare_record" "api_subdomain" {
   ttl     = 1
   proxied = true
 }
+
+output "static_ip" {
+  value = google_compute_address.static_ip.address
+}
