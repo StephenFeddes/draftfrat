@@ -1,4 +1,4 @@
-# Cloudflare Pages Project
+
 resource "cloudflare_pages_project" "frontend_project" {
   account_id = var.cloudflare_account_id
   name       = "rosterroyale-pages"
