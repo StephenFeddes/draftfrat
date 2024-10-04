@@ -11,15 +11,17 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
 }
 
 locals {
+  # This should point to the dist directory after the build
   files = [
-    for file in fileset("apps/frontend/web/dist", "**") : file
+    for file in fileset("${path.module}/../../frontend/web/dist", "**") : file
   ]
 }
 
 resource "google_storage_bucket_object" "files" {
   for_each = toset(local.files)
 
-  name   = each.value
+  # Strip the leading path to upload files relative to the bucket root
+  name   = replace(each.value, "${path.module}/../../frontend/web/dist/", "")
   bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
   source = each.value
 }
