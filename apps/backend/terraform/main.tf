@@ -14,7 +14,7 @@ resource "cloudflare_pages_project" "frontend_project" {
 # Cloudflare DNS Record for Root Domain (rosterroyale.com)
 resource "cloudflare_record" "default_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
-  name     = "" # This represents the root domain (rosterroyale.com)
+  name     = "@" # Use "@" to represent the root domain (rosterroyale.com)
   value    = "${cloudflare_pages_project.frontend_project.name}.pages.dev" # Use the project's name to construct the URL
   type     = "CNAME"
   ttl      = 3600
