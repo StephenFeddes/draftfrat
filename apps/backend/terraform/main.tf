@@ -21,7 +21,7 @@ resource "google_storage_bucket_iam_member" "allUsers" {
 resource "cloudflare_record" "root_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "@"
-  value   = "rosterroyale.com.storage.googleapis.com"
+  value   = "c.storage.googleapis.com"  # Use this for the root domain
   type    = "CNAME"
   proxied = false
 }
@@ -30,7 +30,7 @@ resource "cloudflare_record" "root_domain" {
 resource "cloudflare_record" "www_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "www"
-  value   = "rosterroyale.com.storage.googleapis.com"
+  value   = "c.storage.googleapis.com"  # Use this for the www subdomain
   type    = "CNAME"
   proxied = false
 }
