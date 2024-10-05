@@ -4,6 +4,7 @@ resource "cloudflare_record" "google_verification" {
   value   = "google-site-verification=${var.domain_verification_token}"
   type    = "TXT"
 }
+
 # Create Google Cloud Storage Bucket
 resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   name     = "rosterroyale.com"
