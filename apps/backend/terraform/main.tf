@@ -10,23 +10,15 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   uniform_bucket_level_access = true
 }
 
-locals {
-  # This will give you the absolute paths of all files in the dist directory
-  files = [
-    for file in fileset("${path.module}/../../frontend/web/dist", "**") : abspath(file)
-  ]
+variable "static_files" {
+  default = fileset("apps/frontend/web/dist", "**")
 }
 
-resource "google_storage_bucket_object" "files" {
-  for_each = toset(local.files)
+resource "google_storage_bucket_object" "static_files" {
+  for_each = { for file in var.static_files : file => file }
 
-  # This is the name of the object in GCS (relative to the bucket root)
-  name   = replace(each.value, "${path.module}/../../frontend/web/dist/", "")
-
-  # This is the path to the local file being uploaded
-  source = each.value
-  
-  # The bucket to which the file is being uploaded
+  name   = each.key
+  source = "apps/frontend/web/dist/${each.value}"
   bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
 }
 
