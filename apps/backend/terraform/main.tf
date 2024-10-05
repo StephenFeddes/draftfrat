@@ -1,4 +1,10 @@
-
+resource "cloudflare_record" "google_verification" {
+  zone_id = data.cloudflare_zones.default.zones[0].id
+  name    = "@"
+  value   = "google-site-verification=${var.domain_verification_token}"
+  type    = "TXT"
+  ttl     = 300
+}
 # Create Google Cloud Storage Bucket
 resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   name     = "rosterroyale.com"
@@ -10,6 +16,7 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   # Make the bucket public
   uniform_bucket_level_access = true
   force_destroy = true
+  depends_on = [cloudflare_record.google_verification]
 }
 
 # Configure bucket access to be public

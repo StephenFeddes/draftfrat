@@ -34,3 +34,7 @@ variable domain_name {
   description = "The domain name to use for the cluster"
   default = "rosterroyale.com"
 }
+
+variable domain_verification_token {
+  description = "The domain verification token for Google Search Console"
+}
