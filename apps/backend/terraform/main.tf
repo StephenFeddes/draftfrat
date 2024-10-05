@@ -10,14 +10,11 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   uniform_bucket_level_access = true
 }
 
-variable "static_files" {
-  default = fileset("apps/frontend/web/dist", "**")
-}
-
+# Dynamically fetch the list of files to upload
 resource "google_storage_bucket_object" "static_files" {
-  for_each = { for file in var.static_files : file => file }
+  for_each = fileset("apps/frontend/web/dist", "**")
 
-  name   = each.key
+  name   = each.value
   source = "apps/frontend/web/dist/${each.value}"
   bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
 }
