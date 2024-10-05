@@ -11,19 +11,23 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
 }
 
 locals {
-  # This should point to the dist directory after the build
+  # This will give you the absolute paths of all files in the dist directory
   files = [
-    for file in fileset("${path.module}/../../frontend/web/dist", "**") : file
+    for file in fileset("${path.module}/../../frontend/web/dist", "**") : abspath(file)
   ]
 }
 
 resource "google_storage_bucket_object" "files" {
   for_each = toset(local.files)
 
-  # Strip the leading path to upload files relative to the bucket root
+  # This is the name of the object in GCS (relative to the bucket root)
   name   = replace(each.value, "${path.module}/../../frontend/web/dist/", "")
-  bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
+
+  # This is the path to the local file being uploaded
   source = each.value
+  
+  # The bucket to which the file is being uploaded
+  bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
 }
 
 # Configure bucket access to be public
