@@ -8,7 +8,7 @@ resource "google_storage_bucket" "rosterroyale_bucket" {
 
   # Make the bucket public
   uniform_bucket_level_access = true
-  force_destroy              = true
+  force_destroy               = true
 }
 
 # Configure bucket access to be public
@@ -22,7 +22,7 @@ resource "google_storage_bucket_iam_member" "allUsers" {
 resource "cloudflare_record" "root_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "@"  # Using "@" for the root domain
-  value   = "c.storage.googleapis.com"  # Use c.storage.googleapis.com
+  value   = "rosterroyale.com.storage.googleapis.com"  # Point to your bucket
   type    = "CNAME"
   proxied = false
 }
@@ -31,7 +31,7 @@ resource "cloudflare_record" "root_domain" {
 resource "cloudflare_record" "www_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "www"  # The www subdomain
-  value   = "c.storage.googleapis.com"  # Use c.storage.googleapis.com
+  value   = "rosterroyale.com.storage.googleapis.com"  # Point to your bucket
   type    = "CNAME"
   proxied = false
 }
