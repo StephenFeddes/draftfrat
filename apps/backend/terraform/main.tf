@@ -1,3 +1,4 @@
+
 resource "cloudflare_record" "google_verification" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "@"

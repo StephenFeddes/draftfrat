@@ -40,7 +40,7 @@ jobs:
           terraform -chdir=apps/backend/terraform plan -out=tfplan -var "cluster_name=${CLUSTER_NAME}" \
           -var "zone=${ZONE}" -var "cloudflare_api_key=${{ secrets.CLOUDFLARE_API_KEY }}" \
           -var "cloudflare_email=${{ secrets.CLOUD_FLARE_EMAIL }}" \
-          -var "cloudflare_account_id=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+          -var "cloudflare_account_id=${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" \
           -var "domain_verification_token=${{ secrets.DOMAIN_VERIFICATION_TOKEN }}" \
 
       - name: Terraform Apply
