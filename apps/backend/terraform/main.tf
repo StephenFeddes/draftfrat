@@ -1,13 +1,7 @@
-resource "cloudflare_record" "google_verification" {
-  zone_id = data.cloudflare_zones.default.zones[0].id
-  name    = "@"
-  value   = "google-site-verification=${var.domain_verification_token}"
-  type    = "TXT"
-}
 
 # Create Google Cloud Storage Bucket
 resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
-  name     = "rosterroyale.com"
+  name     = "rosterroyale.com" # Make sure to verify your domain with Google Search Console
   location = var.region
   website {
     main_page_suffix = "index.html"
