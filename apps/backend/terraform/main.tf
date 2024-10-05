@@ -3,7 +3,6 @@ resource "cloudflare_record" "google_verification" {
   name    = "@"
   value   = "google-site-verification=${var.domain_verification_token}"
   type    = "TXT"
-  ttl     = "Auto"
 }
 # Create Google Cloud Storage Bucket
 resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
