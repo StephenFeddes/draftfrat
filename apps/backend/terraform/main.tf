@@ -16,7 +16,6 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
   # Make the bucket public
   uniform_bucket_level_access = true
   force_destroy = true
-  depends_on = [cloudflare_record.google_verification]
 }
 
 # Configure bucket access to be public
