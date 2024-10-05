@@ -12,11 +12,10 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
 
 # Dynamically fetch and upload the list of files to the bucket
 resource "google_storage_bucket_object" "static_files" {
-  for_each = fileset("apps/frontend/web/dist", "**")
+  for_each = fileset("../../frontend/web/dist", "**")  # Adjusted path
 
-  # This stores the file in the bucket with the correct relative path structure
-  name   = each.value
-  source = "apps/frontend/web/dist/${each.value}"
+  name   = each.value  # Keeps the relative path and filename
+  source = "../../frontend/web/dist/${each.value}"  # Adjusted path
   bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
 }
 
@@ -27,7 +26,7 @@ resource "google_storage_bucket_iam_member" "allUsers" {
   member = "allUsers"
 }
 
-# Cloudflare DNS record for your root domain (e.g., rosterroyale.com)
+# Cloudflare DNS record for your root domain
 resource "cloudflare_record" "root_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = var.domain_name
@@ -36,7 +35,7 @@ resource "cloudflare_record" "root_domain" {
   proxied = false
 }
 
-# Cloudflare DNS record for www subdomain (e.g., www.rosterroyale.com)
+# Cloudflare DNS record for www subdomain
 resource "cloudflare_record" "www_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
   name    = "www"
