@@ -8,6 +8,7 @@ resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
 
   # Make the bucket public
   uniform_bucket_level_access = true
+  force_destroy = true
 }
 
 # Configure bucket access to be public
