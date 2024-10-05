@@ -31,12 +31,6 @@ jobs:
         with:
           terraform_version: 1.4.5
 
-      - name: Build frontend
-        run: |
-          cd apps/frontend/web
-          npm install
-          npm run build
-
       - name: Terraform Init
         run: |
           terraform -chdir=apps/backend/terraform init
@@ -65,6 +59,13 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Build frontend
+        run: |
+          cd apps/frontend/web
+          npm install
+          npm run build
+          gsutil -m rsync -r -d dist/ gs://rosterroyale_frontend_bucket/
 
       - name: Get GKE credentials
         env:
