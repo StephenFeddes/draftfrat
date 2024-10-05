@@ -1,28 +1,27 @@
 # Create Google Cloud Storage Bucket
-resource "google_storage_bucket" "rosterroyale_bucket" {
-  name     = "rosterroyale.com"  # Bucket name should match your domain
+resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
+  name     = "rosterroyale_frontend_bucket"
   location = var.region
   website {
-    main_page_suffix = "index.html"  # Define your main page for static hosting
+    main_page_suffix = "index.html"
   }
 
   # Make the bucket public
   uniform_bucket_level_access = true
-  force_destroy               = true
 }
 
 # Configure bucket access to be public
 resource "google_storage_bucket_iam_member" "allUsers" {
-  bucket = google_storage_bucket.rosterroyale_bucket.name
+  bucket = google_storage_bucket.rosterroyale_frontend_bucket.name
   role   = "roles/storage.objectViewer"
-  member = "allUsers"  # Make the bucket accessible to all users
+  member = "allUsers"
 }
 
 # Cloudflare DNS record for your root domain
 resource "cloudflare_record" "root_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
-  name    = "@"  # Using "@" for the root domain
-  value   = "rosterroyale.com.storage.googleapis.com"  # Point to your bucket
+  name    = var.domain_name
+  value   = "rosterroyale_frontend_bucket.storage.googleapis.com"
   type    = "CNAME"
   proxied = false
 }
@@ -30,8 +29,8 @@ resource "cloudflare_record" "root_domain" {
 # Cloudflare DNS record for www subdomain
 resource "cloudflare_record" "www_domain" {
   zone_id = data.cloudflare_zones.default.zones[0].id
-  name    = "www"  # The www subdomain
-  value   = "rosterroyale.com.storage.googleapis.com"  # Point to your bucket
+  name    = "www"
+  value   = "rosterroyale_frontend_bucket.storage.googleapis.com"
   type    = "CNAME"
   proxied = false
 }
