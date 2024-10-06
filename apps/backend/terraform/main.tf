@@ -29,7 +29,7 @@ resource "cloudflare_record" "root_domain" {
   name    = "@"
   value   = "c.storage.googleapis.com"  # Use this for the root domain
   type    = "CNAME"
-  proxied = false
+  proxied = true  # Enable Cloudflare's proxy
 }
 
 # Cloudflare DNS record for www subdomain
@@ -38,5 +38,5 @@ resource "cloudflare_record" "www_domain" {
   name    = "www"
   value   = "c.storage.googleapis.com"  # Use this for the www subdomain
   type    = "CNAME"
-  proxied = false
+  proxied = true  # Enable Cloudflare's proxy
 }
