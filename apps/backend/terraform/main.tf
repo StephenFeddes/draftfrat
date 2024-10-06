@@ -1,7 +1,11 @@
 
 # Create Google Cloud Storage Bucket
 resource "google_storage_bucket" "rosterroyale_frontend_bucket" {
-  name     = "rosterroyale.com" # Make sure to verify your domain with Google Search Console
+  # Make sure to verify your domain with Google Search Console.
+  # Make sure the IAM user whose credentials are used in the Google provider
+  #  has the necessary permissions to verify the domain and
+  # is listed as an owner in the Google Search Console.
+  name     = "rosterroyale.com"
   location = var.region
   website {
     main_page_suffix = "index.html"

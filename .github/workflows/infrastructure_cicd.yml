@@ -66,7 +66,7 @@ jobs:
           cd apps/frontend/web
           npm install
           npm run build
-          gsutil -m rsync -r -d dist/ gs://rosterroyale_frontend_bucket/
+          gsutil -m rsync -r -d dist/ gs://rosterroyale.com/
 
       - name: Get GKE credentials
         env:
