@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: rosterroyale/direct-messaging
-      CLUSTER_NAME: rosterroyale-cluster
+      IMAGE_NAME: draftfrat/direct-messaging
+      CLUSTER_NAME: draftfrat-cluster
       ZONE: us-central1-a
-      PROJECT_ID: rosterroyale
+      PROJECT_ID: draftfrat
 
 
     steps:
@@ -23,7 +23,7 @@ jobs:
 
       - name: Log in to Docker Hub
         run: |
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "rosterroyale" --password-stdin
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "draftfrat" --password-stdin
 
       - name: Build the Docker image
         run: |

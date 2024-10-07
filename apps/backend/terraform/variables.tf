@@ -1,6 +1,6 @@
 variable "gcp_project" {
   description = "The GCP project ID"
-  default = "rosterroyale"
+  default = "draftfrat"
 }
 
 variable "zone" {
@@ -27,12 +27,12 @@ variable cloudflare_email {
 
 variable cluster_name {
     description = "The name of the GKE cluster"
-    default = "rosterroyale-cluster"
+    default = "draftfrat-cluster"
 }
 
 variable domain_name {
   description = "The domain name to use for the cluster"
-  default = "rosterroyale.com"
+  default = "draftfrat.com"
 }
 
 variable domain_verification_token {

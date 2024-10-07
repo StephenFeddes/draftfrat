@@ -29,10 +29,10 @@ export const SignUpPage = () => {
                 <h2 className="flex items-start justify-center items-center text-white text-6xl font-bold">
                     <img
                         src="icons/draftbash.svg"
-                        alt="DraftBash logo"
+                        alt="DraftFrat logo"
                         className="w-16 h-16 mr-2"
                     />
-                    DraftBash
+                    DraftFrat
                 </h2>
                 <img
                     src="images/confetti.png"
@@ -42,7 +42,7 @@ export const SignUpPage = () => {
                 <p className="text-center font-semibold text-white text-3xl w-[500px] mt-4">
                     Make fantasy sport dreams come true with{" "}
                     <b className="relative text-3xl text-secondary">
-                        DraftBash{" "}
+                        DraftFrat{" "}
                         <img
                             src="images/underline.png"
                             alt="Underline"

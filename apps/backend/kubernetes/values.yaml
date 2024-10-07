@@ -1,11 +1,11 @@
 namespace: default
 
-host: api.rosterroyale.com
+host: api.draftfrat.com
 
 directMessaging: 
   name: direct-messaging-app
   image: 
-    name: rosterroyale/direct-messaging
+    name: draftfrat/direct-messaging
     tag: latest
   config:
     name: direct-messaging-config-v1

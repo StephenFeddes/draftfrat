@@ -1,6 +1,6 @@
 namespace: prod
 
-host: api.rosterroyale.com
+host: api.draftfrat.com
 
 directMessaging: 
   config:
