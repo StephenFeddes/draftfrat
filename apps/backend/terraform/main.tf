@@ -8,6 +8,7 @@ resource "google_storage_bucket" "draftfrat_frontend_bucket" {
   location = var.region
   website {
     main_page_suffix = "index.html"
+    not_found_page   = "index.html"
   }
 
   # Make the bucket public
