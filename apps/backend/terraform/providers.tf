@@ -11,7 +11,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "rosterroyale_terraform_bucket"
+    bucket = "draftfrat_terraform_bucket" # Make sure you create a bucket to store the state file
   }
 }
 
