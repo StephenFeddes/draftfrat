@@ -1,4 +1,3 @@
-
 # Create Google Cloud Storage Bucket
 resource "google_storage_bucket" "draftfrat_frontend_bucket" {
   # Make sure to verify your domain with Google Search Console.
