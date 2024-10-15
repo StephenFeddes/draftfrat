@@ -39,10 +39,6 @@ variable domain_verification_token {
   description = "The domain verification token for Google Search Console"
 }
 
-variable mongodb_org_id {
-  description = "The MongoDB Atlas organization ID"
-}
-
 variable mongodb_public_key {
   description = "The MongoDB Atlas public API key"
 }
