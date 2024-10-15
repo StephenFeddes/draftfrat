@@ -8,20 +8,18 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 3.0"
     }
-
     neon = {
       source = "kislerdm/neon"
       version = "0.6.3"
     }
-
     mongodbatlas = {
       source = "mongodb/mongodbatlas"
-      version = "0.6.0"
+      version = "~> 1.6.0"
     }
   }
 
   backend "gcs" {
-    bucket = "draftfrat_terraform_bucket" # Make sure you create a bucket to store the state file
+    bucket = "draftfrat_terraform_bucket"
   }
 }
 
@@ -31,7 +29,7 @@ provider "google" {
 }
 
 provider "cloudflare" {
-  email     = var.cloudflare_email
+  email   = var.cloudflare_email
   api_key = var.cloudflare_api_key
 }
 
