@@ -38,7 +38,6 @@ provider "mongodbatlas" {
   private_key = var.mongodb_private_key
 }
 
-
 provider "neon" {
   api_key = var.neon_api_key
 }
