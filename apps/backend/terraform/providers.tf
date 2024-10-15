@@ -13,6 +13,11 @@ terraform {
       source = "kislerdm/neon"
       version = "0.6.3"
     }
+
+    mongodbatlas = {
+      source = "mongodb/mongodbatlas"
+      version = "0.6.0"
+    }
   }
 
   backend "gcs" {
@@ -31,9 +36,8 @@ provider "cloudflare" {
 }
 
 provider "mongodbatlas" {
-  public_key  = var.mongodb_public_key  # Replace with your public API key or define it in variables
-  private_key = var.mongodb_private_key # Replace with your private API key or define it in variables
-  org_id      = var.mongodb_org_id      # Replace with your MongoDB Atlas organization ID
+  public_key  = var.mongodb_public_key
+  private_key = var.mongodb_private_key
 }
 
 provider "neon" {
