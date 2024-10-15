@@ -9,15 +9,15 @@ export class MessageService {
     }
 
     // Insert a single message
-    async sendMessage(senderId: number, receiverId: number, content: string): Promise<void> {
-        const currentTimeUtc = new Date();
-        const message: Message = {
-            _id: undefined,
-            senderId: senderId,
-            receiverId: receiverId,
-            content: content,
-            createdAt: currentTimeUtc,
-        };
+    async sendMessage(message: Message): Promise<void> {
         await this.messageRepository.insertMessage(message);
+    }
+
+    async getLastMessagesToUser(userId: number): Promise<Message[]> {
+        return await this.messageRepository.getLastMessagesToUser(userId);
+    }
+
+    async getMessagesBetweenUsers(user1Id: number, user2Id: number) {
+        return await this.messageRepository.getMessagesBetweenUsers(user1Id, user2Id);
     }
 }

@@ -10,4 +10,23 @@ directMessaging:
   config:
     name: direct-messaging-config-v1
     data:
-      MONGODB_URL: mongodb://mongo:27017/direct-messaging
+      SPRING_PROFILES_ACTIVE: ""
+
+users: 
+  name: users-app
+  image: 
+    name: draftfrat/users
+    tag: latest
+  config:
+    name: users-config-v1
+    data:
+      SPRING_PROFILES_ACTIVE: dev2
+      DATASOURCE_URL: ""
+      DATASOURCE_USERNAME: ""
+      DATASOURCE_PASSWORD: ""
+
+mongodb:
+  isEnabled: false
+
+postgresql:
+  isEnabled: false

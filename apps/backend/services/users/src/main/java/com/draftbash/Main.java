@@ -26,9 +26,9 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
-    @GetMapping("/")
+    @GetMapping("/users")
     public String home() {
-        return "Draftbash API";
+        return "DraftDraft API";
     }
 
     /**
@@ -40,7 +40,8 @@ public class Main {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173", "https://draftbashfantasy.com", "https://red-mushroom-0ba148410.5.azurestaticapps.net")
+                    .allowedOrigins("http://localhost:5173", "http://localhost", 
+                        "https://draftbashfantasy.com", "https://red-mushroom-0ba148410.5.azurestaticapps.net")
                     .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };

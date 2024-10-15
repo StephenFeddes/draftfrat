@@ -1,0 +1,1 @@
+docker exec -it postgresdb psql -U user1 -d defaultdb

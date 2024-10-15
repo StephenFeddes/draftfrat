@@ -14,12 +14,12 @@ export const NavBar = () => {
         >
             <div className="flex items-center gap-4 p-4">
                 <img
-                    src="icons/draftbash.svg"
-                    alt="DraftBash logo"
+                    src="icons/draftfrat.svg"
+                    alt="DraftFrat logo"
                     className="w-[35px] h-[35px]"
                 />
                 <h2 className="text-center text-3xl font-medium text-transparent transition-colors duration-300 lg:text-white">
-                    DraftBash
+                    DraftFrat
                 </h2>
             </div>
 

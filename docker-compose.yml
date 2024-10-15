@@ -1,9 +1,23 @@
 version: '3.8'
 
 services:
-  postgres-db:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entrypoints.web.address=:80
+    ports:
+      - "8080:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - traefik-network
+      - database-network
+
+  postgresdb:
     image: postgres:14
-    container_name: postgres-db-container
+    container_name: postgresdb
     restart: always
     environment:
       POSTGRES_USER: user1
@@ -13,56 +27,70 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./scripts/initialize_databases/create_postgres_databases.sql:/docker-entrypoint-initdb.d/scripts/initialize_databases/create_postgres_databases.sql
+      - ./scripts/create_postgres_databases.sql:/docker-entrypoint-initdb.d/create_postgres_databases.sql
     networks:
-      - database-network  # Updated network name
+      - database-network
 
-  mongo:
+  mongodb:
     image: mongo:5.0
-    container_name: mongo
+    container_name: mongodb
     restart: always
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
     networks:
-      - database-network  # Updated network name
+      - database-network
 
-  user-service:
+  users:
     build:
       context: ./apps/backend/services/users
       dockerfile: Dockerfile
+    ports:
+      - "3000:80"
     volumes:
       - ./apps/backend/services/users:/app
       - /app/libs
-    ports:
-      - "3000:80"
+    labels: 
+      - "traefik.http.routers.users.rule=(Host(`localhost`) && PathPrefix(`/users`))"
+      - "traefik.http.middlewares.users-strip-prefix.stripprefix.prefixes=/users"
+      - "traefik.http.routers.users.middlewares=users-strip-prefix"
     networks:
-      - database-network  # Updated network name
+      - database-network
+      - traefik-network
     depends_on:
-      - postgres-db
+      - postgresdb
+      - traefik
     environment:
       SPRING_PROFILES_ACTIVE: dev2
 
-  direct-message-service:
+  direct-messaging:
     build:
       context: ./apps/backend/services/direct-messaging
       dockerfile: Dockerfile.dev
     ports:
       - "3001:80"
+    networks:
+      - database-network
+      - traefik-network
+    labels: 
+      - "traefik.http.routers.direct-messaging.rule=(Host(`localhost`) && PathPrefix(`/direct-messaging`))"
     volumes:
       - ./apps/backend/services/direct-messaging:/app
       - /app/dist
-    networks:
-      - database-network  # Updated network name
+      - "/var/run/docker.sock:/var/run/docker.sock"
     depends_on:
-      - postgres-db
-      - mongo  # Ensure the service waits for MongoDB
+      - mongodb
+      - traefik
+    environment:
+      DIRECT_MESSAGING_MONGODB_URL: mongodb://mongodb:27017/direct_messaging
 
 volumes:
   db_data:
-  mongo_data:  # New volume for MongoDB
+  mongo_data:
 
 networks:
-  database-network:  # Updated network name
+  database-network:
+    driver: bridge
+  traefik-network:
     driver: bridge

@@ -1,29 +1,29 @@
-import { useChatContext } from "contexts/ChatProvider";
+import { useDirectMessagingContext } from "contexts/DirectMessagingProvider";
 
 export const RightPanel = () => {
-    const { recentConversations, setFromUserId, joinChat } = useChatContext();
+    const { recentConversations, setRecipientId, joinChat } = useDirectMessagingContext();
 
     return (
-        <div className="p-5">
-            <h3 className="text-sm font-semibold text-grey">Conversations</h3>
+        <div>
+            <h3 className="p-4 text-lg font-semibold text-grey">Conversations</h3>
             <ul>
                 {recentConversations.map((conversation) => (
                     <li
-                        key={conversation.fromUserId}
+                        key={conversation.senderId}
                         onClick={() => {
-                            setFromUserId(conversation.fromUserId);
-                            joinChat(conversation.fromUserId);
+                            setRecipientId(conversation.senderId);
+                            joinChat(conversation.senderId);
                         }}
                         className="p-2 mt-2 rounded-lg cursor-pointer hover:bg-black/10"
                     >
-                        <span className="inline-block h-5 px-2 bg-yellow-500/50 text-xs font-normal leading-4 text-white">
-                            {conversation.fromUsername}
+                        <span className="inline-block h-4 bg-yellow-500/50 bg-opacity-50 bg-secondary text-md font-normal leading-4 text-white">
+                            {conversation.senderName}
                         </span>
-                        {conversation.lastMessage.includes("Join my draft! /drafts/") ? (
-                            <p className="text-xs text-grey1 mt-1">Join my draft!</p>
+                        {conversation.content.includes("Join my draft! /drafts/") ? (
+                            <p className="text-md text-grey">Join my draft!</p>
                         ) : (
-                            <p className="text-xs text-grey1 mt-1 truncate">
-                                {conversation.lastMessage}
+                            <p className="text-md text-grey truncate">
+                                {conversation.content}
                             </p>
                         )}
                     </li>

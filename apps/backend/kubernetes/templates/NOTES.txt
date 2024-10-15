@@ -1,13 +1,13 @@
 # To access the application:
 ```
-kubectl port-forward service/rosterroyale-release-dev-ingress-nginx-controller 8080:80 -n dev
+kubectl port-forward service/draftfrat-release-dev-ingress-nginx-controller 8080:80 -n dev
 ```
 
 # Create dev namespace
 ```
 kubectl create namespace dev
 ```
-helm upgrade --install rosterroyale-release-dev . --values values.yaml -f values-dev.yaml -n dev
+helm upgrade --install draftfrat-release-dev . --values values.yaml -f values-dev.yaml -n dev
 helm ls -all-namespaces
 
 # View resources in different namespaces

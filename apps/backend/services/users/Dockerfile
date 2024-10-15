@@ -9,4 +9,4 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 COPY --from=BUILD /app/build/libs/draftbash-0.0.1-SNAPSHOT.jar /app/libs/app.jar
 EXPOSE 80
-CMD ["java", "-jar", "/app/libs/app.jar"]
+CMD ["java", "-jar", "/app/libs/app.jar", "--server.port=80"]

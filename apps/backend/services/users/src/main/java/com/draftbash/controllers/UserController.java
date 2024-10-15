@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controller for handling app user requests.
  */
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("users/api/v1/users")
 public class UserController {
 
     private final CreateUserService createUserService;

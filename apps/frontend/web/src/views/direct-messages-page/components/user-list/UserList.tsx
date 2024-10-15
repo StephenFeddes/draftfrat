@@ -3,14 +3,14 @@ import { FaPlus, FaSearch } from "react-icons/fa";
 import { useGetUsersByUsername } from "@hooks/users/useGetUsersByUsername";
 import { User } from "types/users";
 import { useGlobalContext } from "contexts/GlobalProvider";
-import { useDirectMessagesContext } from "contexts/DirectMessagesProvider";
+import { useDirectMessagingContext } from "contexts/DirectMessagingProvider";
 
 export const UserList = () => {
     const { user } = useGlobalContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
     const { getUsersByUsername } = useGetUsersByUsername();
-    const { joinChat, setFromUserId } = useDirectMessagesContext();
+    const { joinChat, setRecipientId } = useDirectMessagingContext();
     const [searchTimeout, setSearchTimeout] = useState<number | undefined>(undefined);
 
     const searchUsers = async (username: string) => {
@@ -34,8 +34,10 @@ export const UserList = () => {
     };
 
     const handleChatClick = (userId: number) => {
-        setFromUserId(userId);
-        joinChat(userId);
+        setRecipientId(userId);
+        if (user) {
+            joinChat(userId);
+        }
         setIsModalOpen(false);
     };
 
@@ -65,7 +67,7 @@ export const UserList = () => {
                         <header className="relative p-4">
                             <FaSearch className="absolute top-6 right-6 text-white" />
                             <input
-                                className="w-full rounded-md bg-gray-700 border-none p-2 text-gray-400 text-sm"
+                                className="w-full rounded-md bg-grey-700 border-none p-2 text-grey-400 text-sm"
                                 placeholder="Search users"
                                 type="text"
                                 onChange={handleSearchChange}

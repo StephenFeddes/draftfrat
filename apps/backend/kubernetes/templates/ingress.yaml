@@ -4,18 +4,25 @@ metadata:
   name: draftbash-ingress
   namespace: {{ .Values.namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/use-http2: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
   - host: {{ .Values.host }}
     http:
       paths:
-      - path: /direct-messaging
+      - path: /direct-messaging(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: {{ .Values.directMessaging.name }}
+            port:
+              number: 80
+
+      - path: /users(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.users.name }}
             port:
               number: 80

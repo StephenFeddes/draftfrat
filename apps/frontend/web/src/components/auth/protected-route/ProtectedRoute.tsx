@@ -1,5 +1,6 @@
 import { useGlobalContext } from "contexts/GlobalProvider";
 import { Navigate, Outlet } from "react-router-dom";
+import { DirectMessagingProvider } from "contexts/DirectMessagingProvider";
 
 export function ProtectedRoute() {
     const { user, isLoading } = useGlobalContext();
@@ -14,5 +15,9 @@ export function ProtectedRoute() {
     }
 
     // Render the child routes if the user is authenticated
-    return <Outlet />;
+    return (
+        <DirectMessagingProvider>
+            <Outlet />
+        </DirectMessagingProvider>
+    );
 }

@@ -38,3 +38,27 @@ variable domain_name {
 variable domain_verification_token {
   description = "The domain verification token for Google Search Console"
 }
+
+variable mongodb_org_id {
+  description = "The MongoDB Atlas organization ID"
+}
+
+variable mongodb_public_key {
+  description = "The MongoDB Atlas public API key"
+}
+
+variable mongodb_private_key {
+  description = "The MongoDB Atlas private API key"
+}
+
+variable mongodb_user_name {
+  description = "The MongoDB Atlas database user name"
+}
+
+variable mongodb_user_password {
+  description = "The MongoDB Atlas database user password"
+}
+
+variable neon_api_key {
+  description = "The Neon API key"
+}

@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.directMessaging.config.name }}
   namespace: {{ .Values.namespace }}
 data:
-  DIRECT_MESSAGE_DB_URL: {{ .Values.directMessaging.config.data.MONGODB_URL }}
+  DIRECT_MESSAGING_MONGODB_URL: {{ .Values.directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,7 +25,7 @@ spec:
       labels:
         app: {{ .Values.directMessaging.name }}
       annotations:
-        configmap.revision: {{ .Values.directMessaging.config.data.MONGODB_URL | sha256sum }}
+        configmap.revision: {{ .Values.directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL | sha256sum }}
     spec:
       containers:
         - name: direct-messaging-container

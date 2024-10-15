@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.users.config.name }}
+  namespace: {{ .Values.namespace }}
+data:
+  SPRING_PROFILES_ACTIVE: {{ .Values.users.config.data.SPRING_PROFILES_ACTIVE }}
+  DATASOURCE_URL: {{ .Values.users.config.data.DATASOURCE_URL }}
+  DATASOURCE_USERNAME: {{ .Values.users.config.data.DATASOURCE_USERNAME }}
+  DATASOURCE_PASSWORD: {{ .Values.users.config.data.DATASOURCE_PASSWORD }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.users.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.users.name }}
+    tier: backend
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: {{ .Values.users.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.users.name }}
+      annotations:
+        configmap.revision: {{ .Values.users.config.data.SPRING_PROFILES_ACTIVE | sha256sum }}
+    spec:
+      containers:
+        - name: users-container
+          image: "{{ .Values.users.image.name }}:{{ .Values.users.image.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.users.config.name }}
+          resources:
+            requests:
+              memory: "128Mi"
+            limits:
+              memory: "526Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.users.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.users.name }}
+    tier: backend
+spec:
+  selector:
+    app: {{ .Values.users.name }}
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
