@@ -45,7 +45,7 @@ jobs:
           -var "mongodb_public_key=${{ secrets.MONGODB_PUBLIC_KEY }}" \
           -var "mongodb_private_key=${{ secrets.MONGODB_PRIVATE_KEY }}" \
           -var "mongodb_user_name=${{ secrets.MONGODB_USER_NAME }}" \
-          -var "mongodb_password=${{ secrets.MONGODB_PASSWORD }}" \
+          -var "mongodb_user_password=${{ secrets.MONGODB_USER_PASSWORD }}" \
           -var "neon_api_key=${{ secrets.NEON_API_KEY }}"
 
       - name: Terraform Apply
