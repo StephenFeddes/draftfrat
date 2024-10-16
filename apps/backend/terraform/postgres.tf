@@ -15,7 +15,7 @@ resource "neon_database" "users_db" {
   project_id = neon_project.default.id
   name       = "users"
   owner_name = "neondb_owner"  # Set to default owner
-  branch_id  = data.neon_branch.main.id  # Reference the main branch ID
+  branch_id  = neon_project.default.default_branch_id
 }
 
 # Output the connection string
