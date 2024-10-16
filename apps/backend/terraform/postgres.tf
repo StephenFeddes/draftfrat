@@ -4,12 +4,6 @@ resource "neon_project" "default" {
   history_retention_seconds  = 86400  # Maximum allowed value
 }
 
-# Data source to fetch the existing default branch
-data "neon_branch" "main" {
-  project_id = neon_project.default.id
-  name       = "main"  # Replace this with the actual name of the branch if it's different
-}
-
 # Create a Neon Database in the project
 resource "neon_database" "users_db" {
   project_id = neon_project.default.id
