@@ -21,7 +21,6 @@ resource "neon_role" "db_user" {
   project_id = neon_project.default.id
   branch_id  = neon_branch.main.id
   name       = "draftfrat_user"
-  password   = random_password.pg_password.result
 }
 
 # Create a Neon Database in the project
@@ -36,8 +35,9 @@ resource "neon_database" "users_db" {
 output "postgres_connection_string" {
   value = format("postgresql://%s:%s@%s/%s?sslmode=require", 
     neon_role.db_user.name, 
-    random_password.pg_password.result,
-    neon_project.default.connection_uri,
-    neon_database.users_db.name)
+    neon_role.db_user.password,  # This will work once exposed by Neon API/Provider
+    neon_branch.main.host,  # Replace with actual host from Neon API
+    neon_database.users_db.name
+  )
   sensitive = true
 }
