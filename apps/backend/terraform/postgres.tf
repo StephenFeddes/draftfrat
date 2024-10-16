@@ -33,11 +33,5 @@ resource "neon_database" "users_db" {
 
 # Output the connection string
 output "postgres_connection_string" {
-  value = format("postgresql://%s:%s@%s/%s?sslmode=require", 
-    neon_role.db_user.name, 
-    neon_role.db_user.password,  # This will work once exposed by Neon API/Provider
-    neon_branch.main.host,  # Replace with actual host from Neon API
-    neon_database.users_db.name
-  )
-  sensitive = true
+    value = neon_project.default.connection_uri
 }
