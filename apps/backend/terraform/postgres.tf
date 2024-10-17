@@ -14,6 +14,5 @@ resource "neon_database" "users_db" {
 
 # Output the connection string
 output "postgres_connection_string" {
-  value     = neon_project.default.connection_uri
-  sensitive = true
+  value = "postgresql://${neon_project.default.database_user}:test@${neon_project.default.database_host}/"
 }

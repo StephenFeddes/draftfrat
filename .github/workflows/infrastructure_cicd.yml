@@ -51,7 +51,8 @@ jobs:
       - name: Terraform Apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-          echo $(terraform -chdir=apps/backend/terraform output -raw postgres_connection_string | grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
+          POSTGRES_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw postgres_connection_string | grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
+          echo "POSTGRES_CONNECTION_STRING=$POSTGRES_CONNECTION_STRING" >> $GITHUB_OUTPUT
             
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
