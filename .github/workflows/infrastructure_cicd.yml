@@ -56,9 +56,6 @@ jobs:
       - name: Terraform Apply
         id: terraform_apply
         run: |
-            # Set the TF_LOG variable to suppress logs below ERROR level
-            export TF_LOG=ERROR
-
             # Run Terraform apply and suppress output to only what's necessary
             terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
 
