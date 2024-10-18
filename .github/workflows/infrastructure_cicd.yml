@@ -48,16 +48,16 @@ jobs:
           -var "mongodb_user_password=${{ secrets.MONGODB_USER_PASSWORD }}" \
           -var "neon_api_key=${{ secrets.NEON_API_KEY }}"
 
+        # POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host)
+        # POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password)
+        # echo "POSTGRES_HOST=POSTGRES_HOST" >> $GITHUB_OUTPUT
       - name: Terraform Apply
         id: terraform_apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-          POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host)
-          POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password)
           MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string)
           echo "Using: $MONGODB_CONNECTION_STRING"
           echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
-          echo "POSTGRES_HOST=POSTGRES_HOST" >> $GITHUB_OUTPUT
             
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
