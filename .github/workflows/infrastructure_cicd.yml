@@ -55,7 +55,7 @@ jobs:
         id: terraform_apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string | grep -oP '(mongodb+srv.*)')
+          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string | grep -o '(mongodb+srv.*)')
           echo "Using: $MONGODB_CONNECTION_STRING"
           echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
 
