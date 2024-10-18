@@ -57,7 +57,7 @@ jobs:
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
           MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output mongodb_connection_string)
           echo "Using: $MONGODB_CONNECTION_STRING"
-          echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
+          echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_ENV
             
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -66,6 +66,7 @@ jobs:
 
       - name: Install gke-cloud-auth-plugin
         run: |
+          echo "Testing $MONGODB_CONNECTION_STRING"
           gcloud components install gke-gcloud-auth-plugin
 
       - name: Authenticate to Google Cloud
