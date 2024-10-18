@@ -43,6 +43,5 @@ resource "mongodbatlas_database_user" "default" {
 }
 
 output "connection_string" {
-  value = "mongodb+srv://${mongodbatlas_database_user.default.username}:${mongodbatlas_database_user.default.password}@${mongodbatlas_advanced_cluster.default.name}.${mongodbatlas_advanced_cluster.default.id}.mongodb.net/?retryWrites=true&w=majority"
-  sensitive = true
+  value = "mongodb+srv://${mongodbatlas_database_user.default.username}:test@${mongodbatlas_advanced_cluster.default.name}.${mongodbatlas_advanced_cluster.default.id}.mongodb.net/?retryWrites=true&w=majority"
 }
