@@ -56,7 +56,7 @@ jobs:
         id: terraform_apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string')
+          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string)
           echo "Using: $MONGODB_CONNECTION_STRING"
 
       - name: Set up Google Cloud SDK
