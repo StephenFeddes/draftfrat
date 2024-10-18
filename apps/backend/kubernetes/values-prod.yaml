@@ -6,7 +6,7 @@ directMessaging:
   config:
     name: direct-messaging-config-v1
     data:
-      DIRECT_MESSAGING_MONGODB_URL: ""
+      DIRECT_MESSAGING_MONGODB_URL: {{ .Values.mongodb_connection_string | quote }}
 
 users: 
   name: users-app
@@ -16,7 +16,7 @@ users:
   config:
     name: users-config-v1
     data:
-      SPRING_PROFILES_ACTIVE: dev2
-      DATASOURCE_URL: ""
-      DATASOURCE_USERNAME: ""
-      DATASOURCE_PASSWORD: ""
+      SPRING_PROFILES_ACTIVE: prod
+      DATASOURCE_URL: {{ .Values.users.datasource.url | quote }}
+      DATASOURCE_USERNAME: {{ .Values.users.datasource.username | quote }}
+      DATASOURCE_PASSWORD: {{ .Values.users.datasource.password | quote }}

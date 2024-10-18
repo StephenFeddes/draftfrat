@@ -53,8 +53,6 @@ services:
       - /app/libs
     labels: 
       - "traefik.http.routers.users.rule=(Host(`localhost`) && PathPrefix(`/users`))"
-      - "traefik.http.middlewares.users-strip-prefix.stripprefix.prefixes=/users"
-      - "traefik.http.routers.users.middlewares=users-strip-prefix"
     networks:
       - database-network
       - traefik-network
@@ -62,7 +60,11 @@ services:
       - postgresdb
       - traefik
     environment:
-      SPRING_PROFILES_ACTIVE: dev2
+      SPRING_PROFILES_ACTIVE: dev
+      DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/users
+      DATASOURCE_USERNAME: user1
+      DATASOURCE_PASSWORD: password1
+
 
   direct-messaging:
     build:

@@ -49,10 +49,14 @@ jobs:
           -var "neon_api_key=${{ secrets.NEON_API_KEY }}"
 
       - name: Terraform Apply
+        id: terraform_apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-          POSTGRES_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw postgres_connection_string | grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
-          echo "POSTGRES_CONNECTION_STRING=$POSTGRES_CONNECTION_STRING" >> $GITHUB_OUTPUT
+          POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host | grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
+          POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password | grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
+          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string | grep -oE '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' | head -n 1)
+          echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
+          echo "POSTGRES_HOST=POSTGRES_HOST" >> $GITHUB_OUTPUT
             
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
@@ -104,10 +108,15 @@ jobs:
         run: |
           # Access the captured LoadBalancer IP from previous step
           echo "Using LoadBalancer IP: ${{ steps.capture_ip.outputs.loadbalancer_ip }}"
+          USERS_DATASOURCE_URL="jdbc:postgresql://${{ steps.terraform_apply.outputs.postgres_host }}/users?sslmode=require"
           
           # Install or upgrade Helm chart using the captured IP
           helm upgrade --install draftfrat-release-prod apps/backend/kubernetes \
           --set ingress-nginx.controller.service.loadBalancerIP=${{ steps.capture_ip.outputs.loadbalancer_ip }} \
+          --set users.datasource.url=${USERS_DATASOURCE_URL} \
+          --set users.datasource.username=neondb_owner \
+          --set users.datasource.password=${{ steps.terraform_apply.outputs.postgres_password }} \
+          --set mongodb_connection_string=${{ steps.terraform_apply.outputs.mongodb_connection_string }} \
           --values apps/backend/kubernetes/values.yaml \
           -f apps/backend/kubernetes/values-prod.yaml \
           --namespace prod
