@@ -11,11 +11,9 @@ resource "mongodbatlas_cluster" "default" {
   provider_instance_size_name = "M0"
 }
 
-resource "mongodbatlas_project_ip_whitelist" "default" {
+resource "mongodbatlas_project_ip_access_list" "ip" {
   project_id = mongodbatlas_project.default.id
-
   ip_address = "0.0.0.0/0"
-  comment    = "Allow access from all IPs"
 }
 
 resource "random_password" "db_password" {
