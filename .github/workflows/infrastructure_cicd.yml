@@ -55,10 +55,20 @@ jobs:
       - name: Terraform Apply
         id: terraform_apply
         run: |
-          terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output mongodb_connection_string)
-          echo "Using: $MONGODB_CONNECTION_STRING"
-          echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
+            # Set the TF_LOG variable to suppress logs below ERROR level
+            export TF_LOG=ERROR
+
+            # Run Terraform apply and suppress output to only what's necessary
+            terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
+
+            # Get only the MongoDB connection string without any extra output
+            MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string)
+
+            # Print the MongoDB connection string
+            echo "Using: $MONGODB_CONNECTION_STRING"
+
+            # Save the MongoDB connection string to an environment file
+            echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_ENV
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
