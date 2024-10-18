@@ -7,18 +7,24 @@ resource "mongodbatlas_advanced_cluster" "default" {
   project_id                 = mongodbatlas_project.default.id
   name                       = "draftfrat-cluster"
   cluster_type               = "REPLICASET"
+
   replication_specs {
     region_configs {
-        electable_specs {
-            instance_size = "M0"
-        }
-        provider_name = "TENANT"
-        backing_provider_name = "AWS"
-        region_name = "US_EAST_1"
-        priority = 1
+      electable_specs {
+        instance_size = "M0" # Free tier cluster
+      }
+      provider_name = "TENANT"
+      backing_provider_name = "AWS"
+      region_name = "US_EAST_1"
+      priority = 1
     }
   }
+
+  lifecycle {
+    ignore_changes = [replication_specs] # Ignore changes on replication specs to prevent unwanted updates
+  }
 }
+
 
 resource "mongodbatlas_project_ip_access_list" "ip" {
   project_id = mongodbatlas_project.default.id
