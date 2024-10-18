@@ -30,6 +30,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.4.5
+          terraform_wrapper: false
 
       - name: Terraform Init
         run: |
@@ -68,7 +69,7 @@ jobs:
             echo "Using: $MONGODB_CONNECTION_STRING"
 
             # Save the MongoDB connection string to an environment file
-            echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_ENV
+            echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
 
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
