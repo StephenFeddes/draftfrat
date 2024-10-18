@@ -49,7 +49,7 @@ resource "mongodbatlas_database_user" "default" {
 }
 
 output "mongodb_connection_string" {
-  value = "mongodb+srv://testuser:testpassword@draftfrat-cluster.vxi4n/?retryWrites=true&w=majority"
+  value = "draftfrat-cluster.vxi4n/?retryWrites=true&w=majority"
   sensitive = false
 }
 
