@@ -49,6 +49,12 @@ resource "mongodbatlas_database_user" "default" {
 }
 
 output "mongodb_connection_string" {
-  value = "mongodb+srv://testuser:testpassword@${replace(mongodbatlas_advanced_cluster.default.connection_strings[0].standard_srv, "mongodb+srv://", "")}/?retryWrites=true&w=majority"
+  value = "mongodb+srv://testuser:testpassword@draftfrat-cluster.vxi4n/?retryWrites=true&w=majority"
   sensitive = false
 }
+
+
+#output "mongodb_connection_string" {
+#  value = "mongodb+srv://testuser:testpassword@${replace(mongodbatlas_advanced_cluster.default.connection_strings[0].standard_srv, "mongodb+srv://", "")}/?retryWrites=true&w=majority"
+#  sensitive = false
+#}
