@@ -30,6 +30,21 @@ resource "random_password" "db_password" {
   special = true
 }
 
-output "mongodb_connection_string" {
-  value = mongodbatlas_advanced_cluster.default.connection_strings[0]
+resource "mongodbatlas_database_user" "default" {
+  username       = "dbUser"
+  password       = random_password.db_password.result
+  project_id     = mongodbatlas_project.default.id
+  auth_database_name  = "admin"
+  
+  roles {
+    role_name     = "readWriteAnyDatabase"
+    database_name = "admin"
+  }
+}
+output "connection_string" {
+  value = "mongodb+srv://${mongodbatlas_database_user.default.username}:${mongodbatlas_database_user.default.password}@${mongodbatlas_advanced_cluster.default.name}-<your-cluster-id>.mongodb.net/draftfrat?retryWrites=true&w=majority"
+}
+
+output "connection_string" {
+  value = "mongodb+srv://${mongodbatlas_database_user.default.username}:${mongodbatlas_database_user.default.password}@${mongodbatlas_advanced_cluster.default.name}.${mongodbatlas_advanced_cluster.default.id}.mongodb.net/?retryWrites=true&w=majority"
 }
