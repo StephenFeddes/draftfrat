@@ -13,7 +13,7 @@ resource "mongodbatlas_cluster" "default" {
 
 resource "mongodbatlas_project_ip_access_list" "ip" {
   project_id = mongodbatlas_project.default.id
-  ip_address = "0.0.0.0/0"
+  cidr_block = "0.0.0.0/0"
 }
 
 resource "random_password" "db_password" {
