@@ -3,7 +3,7 @@ resource "mongodbatlas_project" "default" {
   org_id = "6607b01a46ad9572fc526289"
 }
 
-resource "mongodbatlas_cluster" "defult" {
+resource "mongodbatlas_cluster" "default" {
   project_id   = mongodbatlas_project.default.id
   name         = "draftfrat-cluster"
   provider_name = "AWS"
@@ -24,5 +24,5 @@ resource "random_password" "db_password" {
 }
 
 output "mongodb_connection_string" {
-  value = mongodbatlas_cluster.example_cluster.srv_address
+  value = mongodbatlas_cluster.default.srv_address
 }
