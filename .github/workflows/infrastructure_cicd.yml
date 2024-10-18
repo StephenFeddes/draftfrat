@@ -55,7 +55,7 @@ jobs:
       - name: Terraform Apply
         id: terraform_apply
         run: |
-          terraform -chdir=apps/backend/terraform apply -auto-approve tfplan 2>&1
+          terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
           MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output mongodb_connection_string)
           echo "Using: $MONGODB_CONNECTION_STRING"
           echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
