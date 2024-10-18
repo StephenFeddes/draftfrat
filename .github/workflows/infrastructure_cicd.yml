@@ -52,9 +52,9 @@ jobs:
         id: terraform_apply
         run: |
           terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
-          POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host' | head -n 1)
-          POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password' | head -n 1)
-          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string' | head -n 1)
+          POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host)
+          POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password)
+          MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string)
           echo "Using: $MONGODB_CONNECTION_STRING"
           echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
           echo "POSTGRES_HOST=POSTGRES_HOST" >> $GITHUB_OUTPUT
