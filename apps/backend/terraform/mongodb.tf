@@ -1,6 +1,6 @@
 resource "mongodbatlas_project" "default" {
   name   = "draftfrat"
-  org_id = "6607b01a46ad9572fc526289"
+  org_id = "65e4c9963d64375d8e02a9d7"
 }
 
 resource "mongodbatlas_cluster" "default" {
