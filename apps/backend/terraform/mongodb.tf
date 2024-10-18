@@ -31,5 +31,5 @@ resource "random_password" "db_password" {
 }
 
 output "mongodb_connection_string" {
-  value = mongodbatlas_cluster.default.srv_address
+  value = mongodbatlas_advanced_cluster.default.connection_strings[0]
 }
