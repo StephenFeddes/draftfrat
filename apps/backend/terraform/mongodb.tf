@@ -8,7 +8,7 @@ resource "mongodbatlas_cluster" "default" {
   name                       = "draftfrat-cluster"
   provider_name              = "AWS"
   provider_region_name       = "US_EAST_1"
-  provider_instance_size_name = "M2"  # Use M2 for free-tier, or M10 for a paid tier
+  provider_instance_size_name = "M0"
 }
 
 resource "mongodbatlas_project_ip_access_list" "ip" {
