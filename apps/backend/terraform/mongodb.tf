@@ -41,9 +41,6 @@ resource "mongodbatlas_database_user" "default" {
     database_name = "admin"
   }
 }
-output "connection_string" {
-  value = "mongodb+srv://${mongodbatlas_database_user.default.username}:${mongodbatlas_database_user.default.password}@${mongodbatlas_advanced_cluster.default.name}-<your-cluster-id>.mongodb.net/draftfrat?retryWrites=true&w=majority"
-}
 
 output "connection_string" {
   value = "mongodb+srv://${mongodbatlas_database_user.default.username}:${mongodbatlas_database_user.default.password}@${mongodbatlas_advanced_cluster.default.name}.${mongodbatlas_advanced_cluster.default.id}.mongodb.net/?retryWrites=true&w=majority"
