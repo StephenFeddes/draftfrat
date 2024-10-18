@@ -55,7 +55,7 @@ jobs:
       - name: Terraform Apply
         id: terraform_apply
         run: |
-          terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
+          terraform -chdir=apps/backend/terraform apply -auto-approve tfplan | grep -v '::debug::Terraform exited with code 0.' > terraform_output.log
           MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string)
           echo "Using: $MONGODB_CONNECTION_STRING"
 
