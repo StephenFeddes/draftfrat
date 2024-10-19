@@ -14,7 +14,7 @@ if (!dbUrl) {
 mongoose.connect(dbUrl);
 
 const server = http.createServer((req, res) => {
-    res.end("Direct messaging service!");
+    res.end(`Direct messaging service! ${dbUrl}`);
 });
 
 initializeDirectMessagingWebSocket(server);

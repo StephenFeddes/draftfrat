@@ -49,23 +49,20 @@ jobs:
           -var "mongodb_user_password=${{ secrets.MONGODB_USER_PASSWORD }}" \
           -var "neon_api_key=${{ secrets.NEON_API_KEY }}"
 
-        # POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host)
-        # POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password)
-        # echo "POSTGRES_HOST=POSTGRES_HOST" >> $GITHUB_OUTPUT
-        # echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
       - name: Terraform Apply
         id: terraform_apply
         run: |
             # Run Terraform apply and suppress output to only what's necessary
             terraform -chdir=apps/backend/terraform apply -auto-approve tfplan
 
-            # Get only the MongoDB connection string without any extra output
             MONGODB_CONNECTION_STRING=$(terraform -chdir=apps/backend/terraform output -raw mongodb_connection_string)
+            POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host)
+            POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password)
+            LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
 
-            # Print the MongoDB connection string
-            echo "Using: $MONGODB_CONNECTION_STRING"
-
-            # Save the MongoDB connection string to an environment file
+            echo "LOADBALANCER_IP=$LOADBALANCER_IP" >> $GITHUB_OUTPUT
+            echo "POSTGRES_HOST=POSTGRES_HOST" >> $GITHUB_OUTPUT
+            echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> $GITHUB_OUTPUT
             echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
 
       - name: Set up Google Cloud SDK
@@ -85,6 +82,7 @@ jobs:
       - name: Build frontend
         run: |
           cd apps/frontend/web
+          echo "VITE_SERVER_URL=https://draftfrat.com" >> .env
           npm install
           npm run build
           gsutil -m rsync -r -d dist/ gs://draftfrat.com/
@@ -116,8 +114,6 @@ jobs:
 
       - name: Install/upgrade helm chart
         run: |
-          # Access the captured LoadBalancer IP from previous step
-          echo "Using LoadBalancer IP: ${{ steps.capture_ip.outputs.loadbalancer_ip }}"
           USERS_DATASOURCE_URL="jdbc:postgresql://${{ steps.terraform_apply.outputs.postgres_host }}/users?sslmode=require"
           
           # Install or upgrade Helm chart using the captured IP
