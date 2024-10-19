@@ -40,6 +40,8 @@ data "google_client_config" "default" {}
 resource "google_compute_address" "static_ip" {
   name   = "static-ip"
   region = var.region
+
+  depends_on = [google_project_service.compute]
 }
 
 resource "cloudflare_record" "api_subdomain" {
@@ -49,6 +51,8 @@ resource "cloudflare_record" "api_subdomain" {
   type    = "A"
   ttl     = 1
   proxied = true
+
+  depends_on = [google_compute_address.static_ip]
 }
 
 output "static_ip" {
