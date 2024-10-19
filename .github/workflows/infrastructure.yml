@@ -56,10 +56,10 @@ jobs:
             POSTGRES_HOST=$(terraform -chdir=apps/backend/terraform output -raw postgres_host)
             POSTGRES_PASSWORD=$(terraform -chdir=apps/backend/terraform output -raw postgres_password)
             LOADBALANCER_IP=$(terraform -chdir=apps/backend/terraform output -raw static_ip)
-            echo "LOADBALANCER_IP=$LOADBALANCER_IP" >> $GITHUB_OUTPUT
-            echo "POSTGRES_HOST=$POSTGRES_HOST" >> $GITHUB_OUTPUT
-            echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> $GITHUB_OUTPUT
-            echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_OUTPUT
+            echo "LOADBALANCER_IP=$LOADBALANCER_IP" >> $GITHUB_ENV
+            echo "POSTGRES_HOST=$POSTGRES_HOST" >> $GITHUB_ENV
+            echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> $GITHUB_ENV
+            echo "MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING" >> $GITHUB_ENV
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
@@ -97,11 +97,12 @@ jobs:
       - name: Install/upgrade helm chart
         run: |
           helm upgrade --install draftfrat-release-prod apps/backend/kubernetes \
-          --set ingress-nginx.controller.service.loadBalancerIP=${{ steps.terraform_apply.outputs.loadbalancer_ip }} \
+          --set ingress-nginx.controller.service.loadBalancerIP=$LOADBALANCER_IP \
           -f apps/backend/kubernetes/values.yaml \
           -f apps/backend/kubernetes/values-prod.yaml \
-          --set directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL="${{ steps.terraform_apply.outputs.mongodb_connection_string }}" \
-          --set users.config.data.DATASOURCE_URL="jdbc:postgresql://${{ steps.terraform_apply.outputs.postgres_host }}/users?sslmode=require" \
+          --set directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL="$MONGODB_URL" \
+          --set users.config.data.DATASOURCE_URL="jdbc:postgresql://$POSTGRES_HOST/users?sslmode=require" \
           --set users.config.data.DATASOURCE_USERNAME=neondb_owner \
-          --set users.config.data.DATASOURCE_PASSWORD="${{ steps.terraform_apply.outputs.postgres_password }}" \
+          --set users.config.data.DATASOURCE_PASSWORD="$POSTGRES_PASSWORD" \
+          --set users.config.data.JWT_SECRET="$POSTGRES_PASSWORD" \
           --namespace prod

@@ -14,7 +14,7 @@ if (!dbUrl) {
 mongoose.connect(dbUrl);
 
 const server = http.createServer((req, res) => {
-    res.end(`Direct messaging service! ${dbUrl}`);
+    res.end(`Direct messaging service!`);
 });
 
 initializeDirectMessagingWebSocket(server);
@@ -22,5 +22,5 @@ initializeDirectMessagingWebSocket(server);
 // Start the server
 const PORT = process.env.PORT || 80;
 server.listen(PORT, () => {
-    console.log(`Direct Messaging server is running on port ${PORT}.`);
+    console.log(`Direct Messaging server is running. ${dbUrl}.`);
 });

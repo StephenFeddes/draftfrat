@@ -8,6 +8,7 @@ data:
   DATASOURCE_URL: {{ .Values.users.config.data.DATASOURCE_URL }}
   DATASOURCE_USERNAME: {{ .Values.users.config.data.DATASOURCE_USERNAME }}
   DATASOURCE_PASSWORD: {{ .Values.users.config.data.DATASOURCE_PASSWORD }}
+  JWT_SECRET: {{ .Values.users.config.data.JWT_SECRET }}
 ---
 apiVersion: apps/v1
 kind: Deployment

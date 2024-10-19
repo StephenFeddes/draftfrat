@@ -16,3 +16,4 @@ users:
       DATASOURCE_URL: ""
       DATASOURCE_USERNAME: ""
       DATASOURCE_PASSWORD: ""
+      JWT_SECRET: ""
