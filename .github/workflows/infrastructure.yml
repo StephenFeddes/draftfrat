@@ -85,6 +85,7 @@ jobs:
           USE_GKE_GCLOUD_AUTH_PLUGIN: True
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone ${ZONE} --project ${PROJECT_ID}
+
       - name: Install Helm
         run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
@@ -93,21 +94,14 @@ jobs:
           kubectl get namespace prod || kubectl create namespace prod
           helm uninstall draftfrat-release-prod --namespace prod || true
 
-      - name: Debug variable outputs
-        run: |
-          echo "Load Balancer IP: ${{ steps.terraform_apply.outputs.loadbalancer_ip }}"
-          echo "MongoDB Connection String: ${{ steps.terraform_apply.outputs.mongodb_connection_string }}"
-          echo "Postgres Host: ${{ steps.terraform_apply.outputs.postgres_host }}"
-          echo "Postgres Password: ${{ steps.terraform_apply.outputs.postgres_password }}"
-
       - name: Install/upgrade helm chart
         run: |
           helm upgrade --install draftfrat-release-prod apps/backend/kubernetes \
           --set ingress-nginx.controller.service.loadBalancerIP=${{ steps.terraform_apply.outputs.loadbalancer_ip }} \
           -f apps/backend/kubernetes/values.yaml \
           -f apps/backend/kubernetes/values-prod.yaml \
-          --set directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL=${{ steps.terraform_apply.outputs.mongodb_connection_string }} \
-          --set users.config.data.DATASOURCE_URL=jdbc:postgresql://${{ steps.terraform_apply.outputs.postgres_host }}/users?sslmode=require \
+          --set directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL="${{ steps.terraform_apply.outputs.mongodb_connection_string }}" \
+          --set users.config.data.DATASOURCE_URL="jdbc:postgresql://${{ steps.terraform_apply.outputs.postgres_host }}/users?sslmode=require" \
           --set users.config.data.DATASOURCE_USERNAME=neondb_owner \
-          --set users.config.data.DATASOURCE_PASSWORD=${{ steps.terraform_apply.outputs.postgres_password }} \
+          --set users.config.data.DATASOURCE_PASSWORD="${{ steps.terraform_apply.outputs.postgres_password }}" \
           --namespace prod
