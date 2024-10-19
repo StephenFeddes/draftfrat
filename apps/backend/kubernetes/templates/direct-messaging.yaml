@@ -25,7 +25,7 @@ spec:
       labels:
         app: {{ .Values.directMessaging.name }}
       annotations:
-        configmap.revision: {{ .Values.directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL | sha256sum }}
+        configmap.revision: {{ .Values.directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL | quote }}
     spec:
       containers:
         - name: direct-messaging-container
