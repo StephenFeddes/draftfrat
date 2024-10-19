@@ -20,7 +20,7 @@ users:
   config:
     name: users-config-v1
     data:
-      SPRING_PROFILES_ACTIVE: dev2
+      SPRING_PROFILES_ACTIVE: dev
       DATASOURCE_URL: ""
       DATASOURCE_USERNAME: ""
       DATASOURCE_PASSWORD: ""
