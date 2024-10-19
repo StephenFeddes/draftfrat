@@ -109,11 +109,11 @@ jobs:
           
           # Install or upgrade Helm chart using the captured IP
           helm upgrade --install draftfrat-release-prod apps/backend/kubernetes \
-          --set ingress-nginx.controller.service.loadBalancerIP=${{ steps.terraform_apply.outputs.loadbalancer_ip }} \
-          --set users.datasource.url=${USERS_DATASOURCE_URL} \
-          --set users.datasource.username=neondb_owner \
-          --set users.datasource.password=${{ steps.terraform_apply.outputs.postgres_password }} \
-          --set mongodb_connection_string=${{ steps.terraform_apply.outputs.mongodb_connection_string }} \
-          --values apps/backend/kubernetes/values.yaml \
-          -f apps/backend/kubernetes/values-prod.yaml \
-          --namespace prod
+            --set ingress-nginx.controller.service.loadBalancerIP=${{ steps.terraform_apply.outputs.loadbalancer_ip }} \
+            --set users.datasource.url=${USERS_DATASOURCE_URL} \
+            --set users.datasource.username=neondb_owner \
+            --set users.datasource.password=${{ steps.terraform_apply.outputs.postgres_password }} \
+            --set mongodb_connection_string=${{ steps.terraform_apply.outputs.mongodb_connection_string }} \
+            --values apps/backend/kubernetes/values.yaml \
+            -f apps/backend/kubernetes/values-prod.yaml \
+            --namespace prod
