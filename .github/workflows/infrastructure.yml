@@ -100,7 +100,7 @@ jobs:
           --set ingress-nginx.controller.service.loadBalancerIP=$LOADBALANCER_IP \
           -f apps/backend/kubernetes/values.yaml \
           -f apps/backend/kubernetes/values-prod.yaml \
-          --set directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL="$MONGODB_URL" \
+          --set directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL="$MONGODB_CONNECTION_STRING" \
           --set users.config.data.DATASOURCE_URL="jdbc:postgresql://$POSTGRES_HOST/users?sslmode=require" \
           --set users.config.data.DATASOURCE_USERNAME=neondb_owner \
           --set users.config.data.DATASOURCE_PASSWORD="$POSTGRES_PASSWORD" \
