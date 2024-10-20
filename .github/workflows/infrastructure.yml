@@ -76,7 +76,7 @@ jobs:
       - name: Build frontend
         run: |
           cd apps/frontend/web
-          echo "VITE_SERVER_URL=https://draftfrat.com" >> .env
+          echo "VITE_SERVER_URL=https://api.draftfrat.com" >> .env
           npm install
           npm run build
           gsutil -m rsync -r -d dist/ gs://draftfrat.com/
