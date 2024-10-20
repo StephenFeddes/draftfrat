@@ -97,9 +97,10 @@ jobs:
       - name: Install/upgrade helm chart
         run: |
           helm upgrade --install draftfrat-release-prod apps/backend/kubernetes \
-          --set ingress-nginx.controller.service.loadBalancerIP=$LOADBALANCER_IP \
           -f apps/backend/kubernetes/values.yaml \
           -f apps/backend/kubernetes/values-prod.yaml \
+          --set ingress-nginx.controller.service.type=LoadBalancer \
+          --set ingress-nginx.controller.service.loadBalancerIP=$LOADBALANCER_IP \
           --set directMessaging.config.data.DIRECT_MESSAGING_MONGODB_URL="$MONGODB_CONNECTION_STRING" \
           --set users.config.data.DATASOURCE_URL="jdbc:postgresql://$POSTGRES_HOST/users?sslmode=require" \
           --set users.config.data.DATASOURCE_USERNAME=neondb_owner \
