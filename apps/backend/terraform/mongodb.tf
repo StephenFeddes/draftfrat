@@ -33,7 +33,10 @@ resource "mongodbatlas_project_ip_access_list" "ip" {
 
 resource "random_password" "db_password" {
   length  = 16
-  special = true
+  special = false  # No special characters
+  upper   = true   # Optionally, include uppercase letters
+  lower   = true   # Optionally, include lowercase letters
+  number  = true   # Optionally, include numbers
 }
 
 resource "mongodbatlas_database_user" "default" {
