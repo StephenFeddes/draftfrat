@@ -28,7 +28,7 @@ export const SignUpPage = () => {
             <section className="hidden lg:flex flex-col items-center flex-[40%] p-12 bg-primary">
                 <h2 className="flex items-start justify-center items-center text-white text-6xl font-bold">
                     <img
-                        src="icons/draftbash.svg"
+                        src="icons/draftfrat.svg"
                         alt="DraftFrat logo"
                         className="w-16 h-16 mr-2"
                     />

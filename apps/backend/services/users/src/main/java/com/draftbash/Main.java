@@ -41,7 +41,7 @@ public class Main {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                     .allowedOrigins("http://localhost:5173", "http://localhost", 
-                        "https://draftbashfantasy.com", "https://red-mushroom-0ba148410.5.azurestaticapps.net")
+                        "https://draftfrat.com", "https://red-mushroom-0ba148410.5.azurestaticapps.net")
                     .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
