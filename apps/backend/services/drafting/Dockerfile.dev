@@ -16,8 +16,11 @@ COPY . .
 # 7. Build the TypeScript code
 RUN npm run build
 
+# Install nodemon globally for file watching
+RUN npm install -g nodemon
+
 # 8. Expose the port the app runs on
 EXPOSE 80
 
-# Final command for production
-CMD ["npm", "run", "start"]
+# Final command for development
+CMD ["npm", "run", "dev"]
