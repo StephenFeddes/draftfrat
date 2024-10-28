@@ -61,7 +61,7 @@ services:
       - traefik
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/users
+      DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/users_service
       DATASOURCE_USERNAME: user1
       DATASOURCE_PASSWORD: password1
 
@@ -86,6 +86,27 @@ services:
       - traefik
     environment:
       DIRECT_MESSAGING_MONGODB_URL: mongodb://mongodb:27017/direct_messaging
+
+  drafting:
+    build:
+      context: ./apps/backend/services/drafting
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3002:80"
+    networks:
+      - database-network
+      - traefik-network
+    labels: 
+      - "traefik.http.routers.drafting.rule=(Host(`localhost`) && PathPrefix(`/drafting`))"
+    volumes:
+      - ./apps/backend/services/drafting:/app
+      - /app/dist
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    depends_on:
+      - mongodb
+      - traefik
+    environment:
+      POSTGRES_DATABASE_URL: postgres://user1:password1@postgresdb:5432/drafting_service
 
 volumes:
   db_data:

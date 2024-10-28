@@ -8,18 +8,17 @@ WORKDIR /app
 COPY package*.json ./
 
 # 4. Install dependencies
-RUN npm install
+RUN npm ci
 
 # 5. Copy the rest of the application code to the working directory
 COPY . .
 
-# 7. Build the TypeScript code
+# 6. Build the TypeScript code
 RUN npm run build
 
-# Install nodemon globally for file watching
+# 7. Install nodemon globally for file watching
 RUN npm install -g nodemon
 
-# 8. Expose the port the app runs on
 EXPOSE 80
 
 # Final command for development
