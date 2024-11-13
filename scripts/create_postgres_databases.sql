@@ -1,2 +1,2 @@
-CREATE DATABASE users_service;
-CREATE DATABASE drafting_service;
+CREATE DATABASE users;
+CREATE DATABASE drafting;

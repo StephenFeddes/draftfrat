@@ -1,5 +1,5 @@
-export const ScoringEnum = {
-    Standard: "standard",
-    PPR: "ppr",
-    HalfPPR: "half_ppr",
-};
+export enum ScoringEnum {
+    Standard = "standard",
+    PPR = "ppr",
+    HalfPPR = "half_ppr",
+}

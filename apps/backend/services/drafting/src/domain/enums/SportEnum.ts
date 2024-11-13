@@ -1,4 +1,4 @@
-export const SportEnum = {
-    Football: "football",
-    Basketball: "basketball",
-};
+export enum SportEnum {
+    Football = "football",
+    Basketball = "basketball",
+}

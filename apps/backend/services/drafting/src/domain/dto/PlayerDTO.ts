@@ -1,12 +1,11 @@
+import { InjuryStatusEnum } from "../enums/InjuryStatusEnum";
+
 export type PlayerDTO = {
     id: number;
+    averageDraftPosition: number;
     firstName: string;
     lastName: string;
-    age: number;
-    height: number;
-    weight: number;
-    injuryStatus: string;
+    injuryStatus: InjuryStatusEnum | null;
     yearsExperience: number;
-    rotowireId: number;
     headshotUrl: string;
 };

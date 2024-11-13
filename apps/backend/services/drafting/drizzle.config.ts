@@ -5,8 +5,8 @@ dotenv.config();
 
 export default defineConfig({
     dialect: "postgresql",
-    schema: "./src/schema",
-    out: "./src/migrations",
+    schema: "./src/infrastructure/database/schema",
+    out: "./src/infrastructure/database/migrations",
 
     dbCredentials: {
         url:

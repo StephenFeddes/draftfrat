@@ -18,7 +18,11 @@
       "import/extensions": "off",
       "import/no-unresolved": "off",
       "class-methods-use-this": "off",
-      "no-plusplus": "off"
+      "no-plusplus": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "no-param-reassign": "off",
+      "no-restricted-syntax": "off",
+      "no-new": "off"
     },
     "env": {
         "node": true,

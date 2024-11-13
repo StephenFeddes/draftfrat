@@ -1,4 +1,4 @@
-export const DraftOrderEnum = {
-    Snake: "snake",
-    Linear: "linear",
-};
+export enum DraftOrderEnum {
+    SNAKE = "snake",
+    LINEAR = "linear",
+}

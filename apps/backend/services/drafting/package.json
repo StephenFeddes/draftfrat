@@ -5,18 +5,23 @@
     "scripts": {
         "build": "tsc",
         "test": "npx jest",
-        "postbuild": "copyfiles -u 1 \"src/**/*.{json,sql}\" dist/",
+        "postbuild": "copyfiles -u 1 \"src/**/*.{json,sql,csv}\" dist/",
         "start": "node dist/app.js",
-        "dev": "nodemon --watch src --exec 'npm run build && node dist/app.js'"
+        "dev": "nodemon --watch src --exec 'npm run build && node dist/app.js'",
+        "seed": "npx node dist/infrastructure/database/seeds/seed.js"
     },
     "dependencies": {
+        "@socket.io/redis-adapter": "^8.3.0",
         "cors": "^2.8.5",
+        "csv-parser": "^3.0.0",
         "dotenv": "^16.4.5",
+        "drizzle-kit": "^0.26.2",
         "drizzle-orm": "^0.35.2",
         "express": "^4.21.0",
         "pg": "^8.13.0",
+        "redis": "^4.7.0",
         "socket.io": "^4.8.0",
-        "drizzle-kit": "^0.26.2",
+        "socket.io-redis": "^6.1.1",
         "ts-jest": "^29.2.5"
     },
     "devDependencies": {
