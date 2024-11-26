@@ -1,4 +1,4 @@
-import { DraftSettings } from "../../domain/value-objects/draft-settings/DraftSettings";
+import { DraftSettings } from "../../domain/value-objects/DraftSettings";
 
 export interface DraftRepository {
     createDraft(userId: number, settings: DraftSettings): Promise<void>;
@@ -6,4 +6,6 @@ export interface DraftRepository {
     startDraft(draftId: number): Promise<void>;
 
     getDraftSettings(draftId: number): Promise<DraftSettings | null>;
+
+    updateDraftSettings(draftId: number, settings: DraftSettings): Promise<void>;
 }

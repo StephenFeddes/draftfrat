@@ -8,6 +8,13 @@ directMessaging:
     data:
       DIRECT_MESSAGING_MONGODB_URL: mongodb://username:password@mongodb.dev.svc.cluster.local:27017/direct_messaging
 
+drafting: 
+  config:
+    name: drafting-config-v1
+    data:
+      POSTGRES_DATABASE_URL: postgresql://username:password@postgresql:5432/drafting
+      REDIS_URL: redis://redis:6379
+
 users: 
   name: users-app
   image: 

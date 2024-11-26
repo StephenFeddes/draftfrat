@@ -1,7 +1,7 @@
 export enum InjuryStatusEnum {
-    Questionable = "questionable",
-    Doubtful = "doubtful",
-    Out = "out",
-    InjuredReserve = "injured_reserve",
-    Probable = "probable",
+    QUESTIONABLE = "questionable",
+    DOUBTFUL = "doubtful",
+    OUT = "out",
+    INJURED_RESERVE = "injured_reserve",
+    PROBABLE = "probable",
 }

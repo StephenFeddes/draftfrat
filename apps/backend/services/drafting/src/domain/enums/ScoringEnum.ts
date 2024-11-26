@@ -1,5 +1,5 @@
 export enum ScoringEnum {
-    Standard = "standard",
+    STANDARD = "standard",
     PPR = "ppr",
-    HalfPPR = "half_ppr",
+    HALF_PPR= "half_ppr",
 }

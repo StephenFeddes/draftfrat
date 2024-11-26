@@ -3,7 +3,7 @@ import express, { Application } from "express";
 import * as dotenv from "dotenv";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { db } from "./infrastructure/database/connection";
-import { draftRouter } from "./presentation/http/v1/routes/draftRoutes";
+import { router } from "./presentation/http/v1/router";
 import { seedDatabase } from "./infrastructure/database/seeds/seed";
 import { DraftWebSocketService } from "./presentation/websocket/DraftWebSocketService";
 
@@ -16,7 +16,7 @@ app.get("/drafting", (req, res) => {
     res.send("Drafting service is running.");
 });
 
-app.use("/drafting/api/v1", draftRouter);
+app.use("/drafting/api/v1", router);
 
 // Set up the server
 const server = http.createServer(app);

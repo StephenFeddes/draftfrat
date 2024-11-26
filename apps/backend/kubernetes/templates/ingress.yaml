@@ -19,6 +19,14 @@ spec:
             port:
               number: 80
 
+      - path: /drafting(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.drafting.name }}
+            port:
+              number: 80
+
       - path: /users(/|$)(.*)
         pathType: Prefix
         backend:

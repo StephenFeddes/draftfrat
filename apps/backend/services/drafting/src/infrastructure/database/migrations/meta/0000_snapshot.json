@@ -1,5 +1,5 @@
 {
-  "id": "4249cafa-9c7c-4ed9-a161-11750bb04955",
+  "id": "15c6faaa-c798-4e0c-bf3d-cea36903fa41",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -126,6 +126,13 @@
           "primaryKey": false,
           "notNull": false,
           "default": false
+        },
+        "is_complete": {
+          "name": "is_complete",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
         }
       },
       "indexes": {},
@@ -147,6 +154,12 @@
         "draft_id": {
           "name": "draft_id",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "team_name": {
+          "name": "team_name",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
@@ -482,13 +495,13 @@
           "name": "abbreviation",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "bye_week": {
           "name": "bye_week",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -529,7 +542,8 @@
           "name": "years_experience",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": false,
+          "default": 0
         },
         "headshot_url": {
           "name": "headshot_url",

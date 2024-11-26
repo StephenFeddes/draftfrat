@@ -1,5 +1,5 @@
 {
-  "endOfLine": "lf",
-  "printWidth": 100,
+  "endOfLine": "auto",
+  "printWidth": 120,
   "tabWidth": 4
 }

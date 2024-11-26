@@ -4,14 +4,16 @@
     "main": "dist/app.js",
     "scripts": {
         "build": "tsc",
-        "test": "npx jest",
+        "test": "jest --testPathPattern=tests/unit",
         "postbuild": "copyfiles -u 1 \"src/**/*.{json,sql,csv}\" dist/",
         "start": "node dist/app.js",
-        "dev": "nodemon --watch src --exec 'npm run build && node dist/app.js'",
+        "dev": "nodemon --watch src --exec 'npm run build && node dist/src/app.js'",
+        "migrate": "npx drizzle-kit generate",
         "seed": "npx node dist/infrastructure/database/seeds/seed.js"
     },
     "dependencies": {
         "@socket.io/redis-adapter": "^8.3.0",
+        "@testcontainers/postgresql": "^10.15.0",
         "cors": "^2.8.5",
         "csv-parser": "^3.0.0",
         "dotenv": "^16.4.5",
@@ -41,6 +43,7 @@
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-prettier": "^5.2.1",
         "prettier": "^3.3.3",
+        "testcontainers": "^10.15.0",
         "ts-node": "^10.9.2",
         "typescript": "^5.6.2"
     }

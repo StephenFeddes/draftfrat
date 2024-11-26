@@ -1,0 +1,1 @@
+export { createFootballPlayer } from "./createFootballPlayer";

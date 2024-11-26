@@ -8,6 +8,13 @@ directMessaging:
     data:
       DIRECT_MESSAGING_MONGODB_URL: ""
 
+drafting: 
+  config:
+    name: drafting-config-v1
+    data:
+      POSTGRES_DATABASE_URL: ""
+      REDIS_URL: redis://redis:6379
+
 users: 
   config:
     name: users-config-v1

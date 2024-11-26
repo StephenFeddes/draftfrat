@@ -9,6 +9,6 @@
         "outDir": "./dist",
         "types": ["jest", "node"]
     },
-    "include": ["src/**/*", "__tests__/**/*.ts"],
-    "exclude": ["node_modules", "dist", "__tests__/**/*.ts"]
+    "include": ["src/**/*", "tests/**/*.ts"],
+    "exclude": ["node_modules", "dist"]
 }

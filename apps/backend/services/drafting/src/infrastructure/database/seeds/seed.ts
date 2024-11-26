@@ -1,7 +1,7 @@
 import fs from "fs";
 import csv from "csv-parser";
 import { count } from "drizzle-orm";
-import { playerTable, footballPlayerTable, footballTeamTable } from "../schema/schema";
+import { playerTable, footballPlayerTable, footballTeamTable } from "../schema";
 import { db } from "../connection";
 
 async function seedFootballTeamTable() {
