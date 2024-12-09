@@ -1,37 +1,11 @@
-import { Team } from "../Team";
+import { z } from "zod";
+import { SportEnum } from "../../enums/SportEnum";
 
-export class FootballTeam extends Team {
-    public readonly id: number;
+export const FootballTeamSchema = z.object({
+    id: z.number().int().positive(),
+    abbreviation: z.string(),
+    sport: z.nativeEnum(SportEnum),
+    byeWeek: z.number().int().positive(),
+});
 
-    public readonly abbreviation: string;
-
-    public readonly byeWeek: number;
-
-    constructor(id: number, abbreviation: string, byeWeek: number) {
-        super(id, abbreviation);
-
-        if (
-            byeWeek === undefined ||
-            byeWeek === null ||
-            typeof byeWeek !== "number" ||
-            byeWeek < 1 ||
-            byeWeek % 1 !== 0
-        ) {
-            throw new Error("byeWeek is required and must be a positive whole number");
-        }
-
-        this.id = id;
-        this.abbreviation = abbreviation;
-        this.byeWeek = byeWeek;
-
-        Object.freeze(this);
-    }
-
-    public toJSON(): object {
-        return {
-            id: this.id,
-            abbreviation: this.abbreviation,
-            byeWeek: this.byeWeek,
-        };
-    }
-}
+export type FootballTeam = z.infer<typeof FootballTeamSchema>;

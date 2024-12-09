@@ -1,23 +1,15 @@
-import { DraftSettings } from "../value-objects/DraftSettings";
+import { z } from "zod";
+import { DraftSettingsSchema } from "../value-objects/DraftSettings";
 
-export class Draft {
-    public readonly id: number;
+export const DraftSchema = z.object({
+    id: z.number().positive(),
+    settings: DraftSettingsSchema,
+    isStarted: z.boolean(),
+    isComplete: z.boolean(),
+    createdAt: z
+        .string()
+        .refine((val) => !Number.isNaN(Date.parse(val)), { message: "createdAt must be a valid date string" })
+        .nullable(),
+});
 
-    public settings: DraftSettings;
-
-    constructor(id: number, settings: DraftSettings) {
-        this.id = id;
-        this.settings = settings;
-    }
-
-    public setSettings(settings: DraftSettings): void {
-        this.settings = settings;
-    }
-
-    public toJSON(): object {
-        return {
-            id: this.id,
-            settings: this.settings.toJSON(),
-        };
-    }
-}
+export type Draft = z.infer<typeof DraftSchema>;

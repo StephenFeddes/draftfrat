@@ -5,12 +5,10 @@ dotenv.config();
 
 export default defineConfig({
     dialect: "postgresql",
-    schema: "./src/infrastructure/database/schema",
-    out: "./src/infrastructure/database/migrations",
+    schema: "./src/infrastructure/persistence/tables",
+    out: "./src/infrastructure/persistence/migrations",
 
     dbCredentials: {
-        url:
-            process.env.POSTGRES_DATABASE_URL ||
-            "postgres://username1:password1@postgresdb:5432/drafting_service",
+        url: process.env.POSTGRES_DATABASE_URL || "postgres://username1:password1@postgresdb:5432/drafting_service",
     },
 });

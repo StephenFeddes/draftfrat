@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { DraftEventEnum } from "../enums/DraftEventEnum";
 
 export class DraftEvent {
@@ -25,3 +26,9 @@ export class DraftEvent {
         return this.eventData;
     }
 }
+
+export const DraftEventSchema = z.object({
+    draftId: z.number().int().positive(),
+    eventName: z.nativeEnum(DraftEventEnum),
+    eventData: z.unknown(),
+});

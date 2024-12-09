@@ -1,27 +1,11 @@
-import { Player } from "./Player";
+import { z } from "zod";
+import { PlayerSchema } from "./Player";
 
-export class DraftPick {
-    public readonly draftId: number;
+export const DraftPickSchema = z.object({
+    draftId: z.number().int().positive(),
+    pickNumber: z.number().int().positive(),
+    teamNumber: z.number().int().positive(),
+    player: PlayerSchema.nullable(),
+});
 
-    public readonly pickNumber: number;
-
-    public readonly teamNumber: number;
-
-    public player: Player | null;
-
-    constructor(draftId: number, pickNumber: number, teamNumber: number, player: Player | null = null) {
-        this.draftId = draftId;
-        this.pickNumber = pickNumber;
-        this.teamNumber = teamNumber;
-        this.player = player;
-    }
-
-    public toJSON(): object {
-        return {
-            draftId: this.draftId,
-            pickNumber: this.pickNumber,
-            teamNumber: this.teamNumber,
-            player: this.player ? this.player.toJSON() : null,
-        };
-    }
-}
+export type DraftPick = z.infer<typeof DraftPickSchema>;

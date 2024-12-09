@@ -1,41 +1,39 @@
 import { FootballPlayer, FootballPositionEnum } from "../../src/domain";
 
 export const createFootballPlayer = (id: number, positions: FootballPositionEnum[]): FootballPlayer => {
-    return new FootballPlayer(
-        id,
-        "",
-        "Doe",
-        null,
-        null,
-        0,
-        "headshotUrl",
-        null,
-        1,
-        1,
-        1,
-        positions.includes(FootballPositionEnum.QUARTERBACK) || positions.includes(FootballPositionEnum.BENCH),
-        positions.includes(FootballPositionEnum.RUNNING_BACK) ||
-            positions.includes(FootballPositionEnum.FLEX) ||
-            positions.includes(FootballPositionEnum.BENCH),
-        positions.includes(FootballPositionEnum.WIDE_RECEIVER) ||
-            positions.includes(FootballPositionEnum.FLEX) ||
-            positions.includes(FootballPositionEnum.BENCH),
-        positions.includes(FootballPositionEnum.TIGHT_END) ||
-            positions.includes(FootballPositionEnum.FLEX) ||
-            positions.includes(FootballPositionEnum.BENCH),
-        positions.includes(FootballPositionEnum.KICKER) || positions.includes(FootballPositionEnum.BENCH),
-        positions.includes(FootballPositionEnum.DEFENSE) || positions.includes(FootballPositionEnum.BENCH),
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-    );
+    const eligiblePositions: FootballPositionEnum[] = positions;
+    eligiblePositions.push(FootballPositionEnum.BENCH);
+    if (
+        eligiblePositions.includes(FootballPositionEnum.RUNNING_BACK) ||
+        eligiblePositions.includes(FootballPositionEnum.WIDE_RECEIVER) ||
+        eligiblePositions.includes(FootballPositionEnum.TIGHT_END)
+    ) {
+        eligiblePositions.push(FootballPositionEnum.FLEX);
+    }
+    return {
+        id: id,
+        firstName: "",
+        lastName: "",
+        averageDraftPosition: null,
+        injuryStatus: null,
+        yearsExperience: 0,
+        headshotUrl: "headshotUrl",
+        positions: eligiblePositions,
+        team: null,
+        pprRank: 1,
+        halfPprRank: 1,
+        standardRank: 1,
+        projectedRushingAttempts: null,
+        projectedRushingYards: null,
+        projectedRushingTouchdowns: null,
+        projectedTargets: null,
+        projectedReceivingYards: null,
+        projectedReceivingTouchdowns: null,
+        projectedPassingAttempts: null,
+        projectedPassingYards: null,
+        projectedPassingTouchdowns: null,
+        projectedStandardFantasyPoints: null,
+        projectedHalfPprFantasyPoints: null,
+        projectedPprFantasyPoints: null,
+    };
 };

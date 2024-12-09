@@ -27,6 +27,7 @@
         "linebreak-style": "off",
         "prettier/prettier": ["error", { "endOfLine": "auto" }],
         "object-shorthand": "off",
+        "no-continue": "off"
     },
     "env": {
         "node": true,

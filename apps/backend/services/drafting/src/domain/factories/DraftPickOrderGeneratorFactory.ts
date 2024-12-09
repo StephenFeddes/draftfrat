@@ -1,7 +1,7 @@
-import { DraftPickOrderGenerator } from "../../contracts";
+import { DraftPickOrderGenerator } from "../../interfaces";
 import { DraftOrderEnum } from "../enums/DraftOrderEnum";
-import { LinearDraftPickOrderGenerator } from "../services/LinearDraftPickOrderGenerator";
-import { SnakeDraftPickOrderGenerator } from "../services/SnakeDraftPickOrderGenerator";
+import { LinearDraftPickOrderGenerator } from "../services/linear-draft-pick-order-generator/LinearDraftPickOrderGenerator";
+import { SnakeDraftPickOrderGenerator } from "../services/snake-draft-pick-order-generator/SnakeDraftPickOrderGenerator";
 
 export class DraftPickOrderGeneratorFactory {
     public static create(draftOrder: DraftOrderEnum): DraftPickOrderGenerator {

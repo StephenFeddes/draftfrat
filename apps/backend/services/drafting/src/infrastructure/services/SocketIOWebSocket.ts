@@ -1,11 +1,12 @@
-import { Server, Socket } from "socket.io";
+import { Namespace, Socket } from "socket.io";
+import { WebSocket } from "../../interfaces";
 
-export class SocketIOWebSocket {
+export class SocketIOWebSocket implements WebSocket {
     private socket: Socket;
 
-    private io: Server;
+    private io: Namespace;
 
-    constructor(socket: Socket, io: Server) {
+    constructor(socket: Socket, io: Namespace) {
         this.socket = socket;
         this.io = io;
     }

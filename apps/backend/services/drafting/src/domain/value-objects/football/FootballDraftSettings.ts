@@ -1,72 +1,17 @@
-import { DraftOrderEnum } from "../../enums/DraftOrderEnum";
-import { ScoringEnum } from "../../enums/ScoringEnum";
+import { z } from "zod";
+import { DraftSettingsSchema } from "../DraftSettings";
 import { SportEnum } from "../../enums/SportEnum";
-import { DraftSettings } from "../DraftSettings";
 
-export class FootballDraftSettings extends DraftSettings {
-    public readonly quarterbackSpotsCount: number;
+export const FootballDraftSettingsSchema = DraftSettingsSchema.extend({
+    sport: z.literal(SportEnum.FOOTBALL),
+    quarterbackSpotsCount: z.number().int().positive(),
+    runningBackSpotsCount: z.number().int().positive(),
+    wideReceiverSpotsCount: z.number().int().positive(),
+    tightEndSpotsCount: z.number().int().positive(),
+    flexSpotsCount: z.number().int().positive(),
+    benchSpotsCount: z.number().int().positive(),
+    kickerSpotsCount: z.number().int().positive(),
+    defenseSpotsCount: z.number().int().positive(),
+});
 
-    public readonly runningBackSpotsCount: number;
-
-    public readonly wideReceiverSpotsCount: number;
-
-    public readonly tightEndSpotsCount: number;
-
-    public readonly flexSpotsCount: number;
-
-    public readonly benchSpotsCount: number;
-
-    public readonly kickerSpotsCount: number;
-
-    public readonly defenseSpotsCount: number;
-
-    constructor(
-        orderType: DraftOrderEnum,
-        scoringType: ScoringEnum,
-        teamCount: number,
-        pickTimeLimit: number | null,
-        quarterbackSpotsCount: number,
-        runningBackSpotsCount: number,
-        wideReceiverSpotsCount: number,
-        tightEndSpotsCount: number,
-        flexSpotsCount: number,
-        benchSpotsCount: number,
-        kickerSpotsCount: number,
-        defenseSpotsCount: number,
-        createdAt: string = new Date().toISOString(),
-        isStarted: boolean = false,
-        isComplete: boolean = false,
-    ) {
-        super(orderType, SportEnum.FOOTBALL, scoringType, teamCount, pickTimeLimit, createdAt, isStarted, isComplete);
-
-        this.quarterbackSpotsCount = quarterbackSpotsCount;
-        this.runningBackSpotsCount = runningBackSpotsCount;
-        this.wideReceiverSpotsCount = wideReceiverSpotsCount;
-        this.tightEndSpotsCount = tightEndSpotsCount;
-        this.flexSpotsCount = flexSpotsCount;
-        this.benchSpotsCount = benchSpotsCount;
-        this.kickerSpotsCount = kickerSpotsCount;
-        this.defenseSpotsCount = defenseSpotsCount;
-    }
-
-    public toJSON(): object {
-        return {
-            orderType: this.orderType,
-            sport: this.sport,
-            teamCount: this.teamCount,
-            pickTimeLimit: this.pickTimeLimit,
-            scoringType: this.scoringType,
-            createdAt: this.createdAt,
-            isStarted: this.isStarted,
-            isComplete: this.isComplete,
-            quarterbackSpotsCount: this.quarterbackSpotsCount,
-            runningBackSpotsCount: this.runningBackSpotsCount,
-            wideReceiverSpotsCount: this.wideReceiverSpotsCount,
-            tightEndSpotsCount: this.tightEndSpotsCount,
-            flexSpotsCount: this.flexSpotsCount,
-            benchSpotsCount: this.benchSpotsCount,
-            kickerSpotsCount: this.kickerSpotsCount,
-            defenseSpotsCount: this.defenseSpotsCount,
-        };
-    }
-}
+export type FootballDraftSettings = z.infer<typeof FootballDraftSettingsSchema>;
