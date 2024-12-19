@@ -41,9 +41,6 @@ export { Roster } from "./aggregates/roster/Roster";
 export { RosterPool } from "./aggregates/roster-pool/RosterPool";
 export { PlayerQueuePool } from "./aggregates/player-queue-pool/PlayerQueuePool";
 
-// Exporting services
-export { InMemoryEventBus } from "./services/in-memory-event-bus/InMemoryEventBus";
-
 // Exporting factories
 export { RosterPoolFactory } from "./factories/RosterPoolFactory";
 export { DraftPickOrderGeneratorFactory } from "./factories/DraftPickOrderGeneratorFactory";

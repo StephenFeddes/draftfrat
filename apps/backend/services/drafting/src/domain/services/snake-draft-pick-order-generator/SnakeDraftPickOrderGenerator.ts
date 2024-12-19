@@ -1,4 +1,4 @@
-import { DraftPickOrderGenerator } from "../../../interfaces";
+import { DraftPickOrderGenerator } from "../../interfaces/DraftPickOrderGenerator";
 import { DraftPick } from "../../entities/DraftPick";
 
 /**

@@ -1,5 +1,5 @@
-import { DraftPickOrderGenerator } from "../../interfaces";
 import { DraftOrderEnum } from "../enums/DraftOrderEnum";
+import { DraftPickOrderGenerator } from "../interfaces/DraftPickOrderGenerator";
 import { LinearDraftPickOrderGenerator } from "../services/linear-draft-pick-order-generator/LinearDraftPickOrderGenerator";
 import { SnakeDraftPickOrderGenerator } from "../services/snake-draft-pick-order-generator/SnakeDraftPickOrderGenerator";
 

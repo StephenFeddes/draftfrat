@@ -1,5 +1,5 @@
 import { DraftOrderEnum, DraftPick } from "../..";
-import { DraftPickOrderGenerator } from "../../../interfaces";
+import { DraftPickOrderGenerator } from "../../interfaces/DraftPickOrderGenerator";
 import { DraftPickOrderGeneratorFactory } from "../../factories/DraftPickOrderGeneratorFactory";
 
 describe("LinearDraftPickOrderGenerator", () => {
